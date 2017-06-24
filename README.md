@@ -1,2 +1,2 @@
 # woniuji-wxapp
-woniuji.me for wxapp
+woniuji website for wxapp
