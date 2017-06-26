@@ -1,10 +1,66 @@
-<!--index.wxml-->
-<view class="container">
-  <view  bindtap="bindViewTap" class="userinfo">
+<!-- 首页 -->
+<view class="container-index">
+  <!-- 用户信息部分 -->
+  <view class="userinfo">
+    <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+    <view class="nickname">
+      <text>三年二胎周杰伦</text>
+      <text class="fa fa-mars"></text>
+    </view>
+    <view class="info">
+      <text>关注 0</text>
+      <text>粉丝 0</text>
+      <text>蜗牛币 0</text>
+    </view>
+    <button size="mini" type="primary" class="btn-follow">关注</button>
+  </view>
+
+  <!-- tab 切换部分 -->
+  <view class="tab">
+    <text class="item active">轨迹</text>
+    <text class="item">梦想录</text>
+  </view>
+
+  <!-- 轨迹列表 -->
+  <view class="diary-list">
+    <view wx:for="{{diaryList}}" class="item">
+      <view class="title">
+        <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+        <text class="nickname">三年二胎周杰伦</text>
+        <text class="time">1小时前</text>
+      </view>
+      <view class="pic">
+        <!--<image src="{{userInfo.avatarUrl}}"></image>-->
+        <image class="img-multi" src="{{userInfo.avatarUrl}}"></image>
+        <image class="img-multi" src="{{userInfo.avatarUrl}}"></image>
+        <image class="img-multi" src="{{userInfo.avatarUrl}}"></image>
+        <image class="img-multi" src="{{userInfo.avatarUrl}}"></image>
+        <image class="img-multi" src="{{userInfo.avatarUrl}}"></image>
+        <image class="img-multi" src="{{userInfo.avatarUrl}}"></image>
+      </view>
+      <view class="content">
+        <text>如果你无法简洁的表达你的想法，那只说明你还不够了解它。-- 阿尔伯特·爱因斯坦</text>
+      </view>
+      <view class="meta">
+        <text class="text-from">来自《梦想录 xxx》</text>
+        <text class="fa fa-heart-o icon icon-like"></text>
+        <text class="fa fa-commenting-o icon icon-comment"></text>
+      </view>
+    </view>
+    <view class="ball-clip-rotate">
+      <view class="box"></view>
+    </view>
+  </view>
+
+  <!--<view class="item item1">1</view>
+  <view class="item item2">2</view>
+  <view class="item item3">3</view>-->
+  <!--<text class="fa fa-bookmark"></text>-->
+  <!--<view bindtap="bindViewTap" class="userinfo">
     <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
     <text class="userinfo-nickname">{{userInfo.nickName}}</text>
   </view>
   <view class="usermotto">
     <text class="user-motto">{{motto}}</text>
-  </view>
+  </view>-->
 </view>
