@@ -1,0 +1,28 @@
+<!--pages/commentList/commentList.wxml-->
+<!-- 评论列表页 -->
+<view class="app-container">
+  <!-- 评论列表 -->
+  <view class="diary-list">
+    <view wx:for="{{diaryList}}" class="item">
+      <view class="title">
+        <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+        <text class="nickname">三年二胎周杰伦</text>
+        <text class="time">1小时前</text>
+      </view>
+      <view class="content">
+        <text>如果你无法简洁的表达你的想法，那只说明你还不够了解它。-- 阿尔伯特·爱因斯坦</text>
+      </view>
+      <view class="meta">
+        <text class="fa fa-reply icon icon-comment"></text>
+      </view>
+    </view>
+    <view class="ball-clip-rotate">
+      <view class="box"></view>
+    </view>
+  </view>
+  <!-- 发布评论 -->
+  <view class="comment-box">
+    <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+    <input placeholder-class="form-placeholder" placeholder="回应一下~" />
+  </view>
+</view>

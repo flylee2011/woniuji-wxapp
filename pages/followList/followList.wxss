@@ -1,0 +1,40 @@
+/* pages/followList/followList.wxss */
+/* 关注/粉丝页 */
+
+/* 列表 */
+.follow-list {
+  margin-top: 20rpx;
+}
+.follow-list .item {
+  position: relative;
+  overflow: hidden;
+  min-height: 120rpx;
+  padding: 20rpx 30rpx 20rpx 180rpx;
+  border-bottom: 1px solid #e5e5e5;
+  background-color: #fff;
+}
+.follow-list .item .cover {
+  position: absolute;
+  left: 30rpx;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 10%;
+}
+.follow-list .item .content {
+  display: inline-block;
+  margin-top: 10rpx;
+  max-width: 340rpx;
+}
+.follow-list .item .nickname {
+  font-size: 32rpx;
+}
+.follow-list .item .desc {
+  margin-top: 10rpx;
+  font-size: 28rpx;
+  color: #ccc;
+}
+.follow-list .item .btn-follow {
+  position: absolute;
+  right: 30rpx;
+  top: 40rpx;
+}

@@ -1,0 +1,26 @@
+/* pages/commentList/commentList.wxss */
+/* 评论列表页 */
+.diary-list .item {
+  margin-top: 0;
+}
+.comment-box {
+  position: fixed;
+  bottom: 0;
+  padding: 20rpx 30rpx;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  width: 100%;
+  box-sizing: border-box;
+}
+.comment-box .avatar {
+  display: inline-block;
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+}
+.comment-box input {
+  display: inline-block;
+  margin-left: 20rpx;
+  width: 80%;
+  font-size: 32rpx;
+}

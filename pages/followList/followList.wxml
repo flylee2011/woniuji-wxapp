@@ -1,0 +1,20 @@
+<!--pages/followList/followList.wxml-->
+<!-- 关注/粉丝列表页 -->
+<view class="app-container">
+  <!-- tab 切换部分 -->
+  <view class="c-tab">
+    <text class="item active">梦想家</text>
+    <text class="item">梦想录</text>
+  </view>
+  <!-- 关注列表 -->
+  <view class="follow-list">
+    <view wx:for="{{followPeopleList}}" class="item">
+      <image class="cover" src="{{item.cover}}"></image>
+      <view class="content">
+        <view class="nickname">三年二胎周杰伦</view>
+        <view class="desc">这家伙很懒，什么都没留下...这家伙很懒，什么都没留下...</view>
+      </view>
+      <button class="btn-follow" type="primary" size="mini">关 注</button>
+    </view>
+  </view>
+</view>

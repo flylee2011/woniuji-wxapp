@@ -1,7 +1,9 @@
 {
   "pages":[
-    "pages/diaryDetail/diaryDetail",
     "pages/discovery/discovery",
+    "pages/followList/followList",
+    "pages/commentList/commentList",
+    "pages/diaryDetail/diaryDetail",
     "pages/addBottle/addBottle",
     "pages/addDiary/addDiary",
     "pages/editinfo/editinfo",
