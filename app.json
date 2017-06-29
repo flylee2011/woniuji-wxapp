@@ -1,36 +1,52 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/bottle/bottle",
+    "pages/mine/mine",
+    "pages/editinfo/editinfo",
+    "pages/feedback/feedback",
+    "pages/publish/publish",
+    "pages/discovery/discovery"
+    
   ],
   "window":{
     "navigationBarTitleText": "蜗牛记",
     "navigationBarTextStyle": "black",
     "navigationBarBackgroundColor": "#fff",
-    "backgroundColor": "#fff",
-    "backgroundTextStyle":"dark",
-    "enablePullDownRefresh": true
+    "backgroundColor": "#ddd",
+    "backgroundTextStyle":"light",
+    "enablePullDownRefresh": false
   },
   "tabBar": {
-    "color": "#ccc",
-    "selectedColor": "#333",
-    "backgroundColor": "#fff",
+    "color": "#7F8389",
+    "selectedColor": "#09BB07",
+    "backgroundColor": "#F8F8FA",
     "borderStyle": "black",
     "list": [{
       "pagePath": "pages/index/index",
-      "text": "home"
+      "text": "首页",
+      "iconPath": "images/icon-tabbar.png",
+      "selectedIconPath": "images/icon-tabbar.png"
     }, {
-      "pagePath": "pages/logs/logs",
-      "text": "discovery"
+      "pagePath": "pages/discovery/discovery",
+      "text": "发现",
+      "iconPath": "images/icon-tabbar.png",
+      "selectedIconPath": "images/icon-tabbar.png"
     }, {
-      "pagePath": "pages/logs/logs",
-      "text": "add new"
+      "pagePath": "pages/publish/publish",
+      "text": "发布",
+      "iconPath": "images/icon-tabbar.png",
+      "selectedIconPath": "images/icon-tabbar.png"
     }, {
-      "pagePath": "pages/logs/logs",
-      "text": "bottle"
+      "pagePath": "pages/bottle/bottle",
+      "text": "梦境",
+      "iconPath": "images/icon-tabbar.png",
+      "selectedIconPath": "images/icon-tabbar.png"
     }, {
-      "pagePath": "pages/logs/logs",
-      "text": "me"
+      "pagePath": "pages/mine/mine",
+      "text": "我的",
+      "iconPath": "images/icon-tabbar.png",
+      "selectedIconPath": "images/icon-tabbar.png"
     }]
   },
   "networkTimeout": {

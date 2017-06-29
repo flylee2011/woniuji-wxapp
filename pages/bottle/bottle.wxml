@@ -1,0 +1,27 @@
+<!--pages/bottle/bottle.wxml-->
+<!-- 梦境-列表页 -->
+<view class="app-container">
+
+  <!-- 页头说明部分 -->
+  <view class="head">
+    <text class="text-desc">在这里，找到相似的人。</text>
+    <button class="btn-add" type="primary" size="mini">创建梦境</button>
+  </view>
+
+  <!-- tab 切换部分 -->
+  <view class="c-tab">
+    <text class="item active">所有</text>
+    <text class="item">我的</text>
+    <text class="item">参与</text>
+  </view>
+
+  <!-- 梦境列表 -->
+  <view class="diary-sets">
+    <view wx:for="{{diarySetsList}}" class="item">
+      <image class="cover" src="{{item.coverUrl}}"></image>
+      <view class="title">梦境1</view>
+      <view class="desc">轨迹200•赞300</view>
+    </view>
+  </view>
+
+</view>

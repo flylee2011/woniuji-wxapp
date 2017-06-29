@@ -1,0 +1,5 @@
+/* pages/publish/publish.wxss */
+/* 容器 */
+.container-pub {
+  /*padding-top: 30rpx;*/
+}

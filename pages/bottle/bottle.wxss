@@ -1,0 +1,16 @@
+/* pages/bottle/bottle.wxss */
+/* 梦境页 */
+.head {
+  padding: 20rpx 30rpx;
+  margin-bottom: 20rpx;
+  background-color: #fff;
+  overflow: hidden;
+}
+.head .text-desc {
+  float: left;
+  font-size: 28rpx;
+  line-height: 60rpx;
+}
+.head .btn-add {
+  float: right;
+}

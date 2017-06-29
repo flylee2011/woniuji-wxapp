@@ -1,0 +1,31 @@
+<!--pages/editinfo/editinfo.wxml-->
+<!-- 编辑基础信息页 -->
+<view class="app-container">
+  <form class="form-editinfo">
+    <!-- 基础信息 -->
+    <view class="c-form-item">
+      <view class="text-label">基础信息</view>
+      <view class="form-el">
+        <view class="select-item">
+          <text class="text">昵称</text>
+          <input placeholder-class="form-placeholder" placeholder="请输入昵称（必填）" />
+        </view>
+        <view class="select-item last">
+          <text class="text">性别</text>
+          <picker>
+            <text>保密</text>
+          </picker>
+        </view>
+      </view>
+    </view>
+    <!-- 个人简介 -->
+    <view class="c-form-item">
+      <view class="text-label">个人简介</view>
+      <view class="form-el">
+        <textarea class="textarea" placeholder-class="form-placeholder" placeholder="请输入一句话个人简介" />
+      </view>
+    </view>
+    <!-- 提交按钮 -->
+    <button class="c-btn-submit" form-type="submit" type="primary">保 存</button>
+  </form>
+</view>

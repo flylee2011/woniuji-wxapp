@@ -1,0 +1,28 @@
+<!--pages/feedback/feedback.wxml-->
+<!-- 用户反馈页 -->
+<view class="app-container">
+  <form class="form-feedback">
+    <!-- 文本 -->
+    <view class="c-form-item">
+      <view class="text-label">问题内容</view>
+      <view class="form-el">
+        <textarea class="textarea" placeholder-class="form-placeholder" placeholder="遇到问题了？反馈给程序员GG吧~" />
+      </view>
+    </view>
+    <!-- 上传图片 -->
+    <view class="c-form-item">
+      <view class="text-label">上传截图</view>
+      <view class="form-el">
+        <view class="pic-sets">
+          <view class="item">
+            <image class="img" src="{{userInfo.avatarUrl}}"></image>
+          </view>
+          <view class="c-addnew"></view>
+          <view class="c-blank"></view>
+        </view>
+      </view>
+    </view>
+    <!-- 提交按钮 -->
+    <button class="c-btn-submit" form-type="submit" type="primary">提 交</button>
+  </form>
+</view>

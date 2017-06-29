@@ -6,7 +6,19 @@ var app = getApp()
 var pageData = {
   motto: 'Hello World',
   userInfo: {},
-  diaryList: [{}, {}, {}]
+  diaryList: [{}, {}, {}],
+  diarySetsList: [{
+    coverUrl: 'http://woniuji.oss-cn-beijing.aliyuncs.com/temp/avatar.png'
+  }, {
+    coverUrl: 'http://woniuji.oss-cn-beijing.aliyuncs.com/temp/avatar.png'
+  }, {
+    coverUrl: 'http://woniuji.oss-cn-beijing.aliyuncs.com/temp/avatar.png'
+  }, {
+    coverUrl: 'http://woniuji.oss-cn-beijing.aliyuncs.com/temp/avatar.png'
+  }, {
+    coverUrl: 'http://woniuji.oss-cn-beijing.aliyuncs.com/temp/avatar.png'
+  }],
+  curTabIndex: 1
 };
 
 // 注册页面
@@ -14,19 +26,18 @@ Page({
   data: pageData,
   // 页面加载
   onLoad: function () {
-    console.log('onLoad')
-    var that = this
+    var that = this;
     //调用应用实例的方法获取全局数据
     app.getUserInfo(function(userInfo){
       //更新数据
       that.setData({
         userInfo:userInfo
-      })
-    })
+      });
+    });
   },
   // 初次渲染完成
   onReady: function() {
-    console.log('curPage: ', getCurrentPages());
+
   },
   // 分享
   onShareAppMessage: function() {
@@ -39,15 +50,22 @@ Page({
     // wx.navigateTo({
     //   url: '../logs/logs'
     // })
-    wx.request({
-      url: 'http://local.woniuji.me/api/user/autoreg',
-      data: {},
-      header: {
-        'content-type': 'application/json'
-      },
-      success: function (res) {
-        console.log(res);
-      }
+    // wx.request({
+    //   url: 'http://local.woniuji.me/api/user/autoreg',
+    //   data: {},
+    //   header: {
+    //     'content-type': 'application/json'
+    //   },
+    //   success: function (res) {
+    //     console.log(res);
+    //   }
+    // });
+  },
+  // 切换 tab
+  onToggleTab: function(e) {
+    var curTabIndex = e.currentTarget.dataset.tabindex;
+    this.setData({
+      curTabIndex: curTabIndex
     });
   }
 });

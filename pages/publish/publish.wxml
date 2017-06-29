@@ -1,0 +1,42 @@
+<!-- 发布轨迹页 -->
+<view class="app-container container-pub">
+  <!-- 表单 -->
+  <form class="form-publish">
+    <!-- 选择梦想录 -->
+    <view class="c-form-item">
+      <view class="text-label">选择梦想录</view>
+      <view class="form-el">
+        <picker class="select-item last" bindchange="onChangeDiaryPicker" range="{{diaryCollectionList}}" value="{{diaryIndex}}">
+          <image class="cover" src="{{userInfo.avatarUrl}}"></image>
+          <text class="text">{{diaryCollectionList[diaryIndex]}}</text>
+          <text class="fa fa-angle-right icon-angle"></text>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 图片 -->
+    <view class="c-form-item">
+      <view class="text-label">上传图片</view>
+      <view class="form-el">
+        <view class="pic-sets">
+          <view class="item">
+            <image class="img" src="{{userInfo.avatarUrl}}"></image>
+          </view>
+          <view class="c-addnew"></view>
+          <view class="c-blank"></view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 正文 -->
+    <view class="c-form-item">
+      <view class="text-label">正文</view>
+      <view class="form-el">
+        <textarea class="textarea" placeholder="输入正文..." />
+      </view>
+    </view>
+
+    <!-- 提交按钮 -->
+    <button class="c-btn-submit" form-type="submit" type="primary">发布</button>
+  </form>
+</view>

@@ -5,12 +5,213 @@
 page {
   height: 100%;
 }
-.container {
-  height: 100%;
+
+/* 容器 */
+.app-container {
+  background-color: #efeff4;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+/* 空白模块 */
+.c-blank {
+  width: 204rpx;
+  height: 204rpx;
+  background-color: #fff;
+  text-align: center;
+}
+/* 新增icon */
+.c-addnew {
+  width: 204rpx;
+  height: 204rpx;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url('data:image/png;base64,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');
+}
+
+/* tab 切换部分 */
+.c-tab {
   display: flex;
-  flex-direction: column;
+  justify-content: space-around;
   align-items: center;
+  font-size: 32rpx;
+  background-color: #fff;
+}
+.c-tab .item {
+  padding: 20rpx;
+  border-bottom: 4rpx solid #ccc;
+}
+.c-tab .active {
+  color: #09bb07;
+  border-bottom-color: #09bb07;
+}
+
+/* 梦想录列表 */
+.diary-sets {
+  display: flex;
   justify-content: space-between;
-  padding: 200rpx 0;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  background-color: #fff;
+  margin-top: 20rpx;
+  padding: 0 30rpx 20rpx 30rpx;
+}
+.diary-sets .item {
+  margin-top: 20rpx;
+}
+.diary-sets .cover {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 10%;
+}
+.diary-sets .title {
+  font-size: 28rpx;
+  text-align: center;
+}
+.diary-sets .desc {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  text-align: center;
+  color: #ccc;
+}
+
+/* 轨迹列表 */
+.diary-list .item {
+  margin-top: 20rpx;
+  padding: 20rpx 30rpx;
+  border-bottom: 1px solid #ccc;
+  background-color: #fff;
+}
+.diary-list .title {
+  overflow: hidden;
+}
+.diary-list .title .avatar {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+.diary-list .title .nickname {
+  margin-left: 10rpx;
+  vertical-align: middle;
+  font-size: 28rpx;
+}
+.diary-list .title .time {
+  float: right;
+  margin-top: 18rpx;
+  font-size: 24rpx;
+  vertical-align: middle;
+}
+.diary-list .pic {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.diary-list .pic .img-multi {
+  margin-top: 20rpx;
+  width: 200rpx;
+  height: 200rpx;
+}
+.diary-list .content {
+  margin-top: 20rpx;
+  font-size: 32rpx;
+}
+.diary-list .meta {
+  margin-top: 20rpx;
+  overflow: hidden;
+}
+.diary-list .meta .text-from {
+  float: left;
+  margin-top: 4rpx;
+  font-size: 28rpx;
+}
+.diary-list .meta .icon {
+  float: right;
+  margin-left: 20rpx;
+}
+
+/* 表单/选项列表类 */
+/* 标签文字 */
+.c-form-item .text-label {
+  margin: 30rpx 30rpx 20rpx 30rpx;
+  font-size: 28rpx;
+  color: #888888;
+}
+/* 表单元素 */
+.c-form-item .form-el {
+  border-top: 1px solid #E5E5E5;
+  border-bottom: 1px solid #E5E5E5;
+  background-color: #fff;
+}
+/* 选择列表 */
+.c-form-item .select-item {
+  position: relative;
+  padding: 20rpx 30rpx 20rpx 0;
+  margin-left: 30rpx;
+  border-bottom: 1px solid #E5E5E5;
+}
+.c-form-item .select-item.last {
+  border-bottom: 0;
+}
+.c-form-item .select-item .cover {
+  margin-right: 10rpx;
+  width: 58rpx;
+  height: 58rpx;
+  vertical-align: middle;
+}
+.c-form-item .select-item .text {
+  margin-right: 40rpx;
+  font-size: 34rpx;
+  vertical-align: middle;
+}
+.c-form-item .select-item .icon-angle {
+  position: absolute;
+  right: 30rpx;
+  top: 30rpx;
+  color: #C7C7CC;
+}
+.c-form-item .select-item .icon-angle.no-cover {
+  top: 22rpx;
+}
+.c-form-item .select-item input,
+.c-form-item .select-item picker,
+.c-form-item .select-item textarea {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 34rpx;
+}
+/* 预设文案 */
+.c-form-item .form-placeholder {
+  color: #B2B2B2;
+}
+/* 上传图片列表 */
+.c-form-item .pic-sets {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 30rpx;
+  background-color: #fff;
+}
+.c-form-item .pic-sets .item {
+  width: 204rpx;
+  height: 204rpx;
+}
+.c-form-item .pic-sets .img {
+  width: 200rpx;
+  height: 200rpx;
+  border: 1px solid #CCCCCC;
+}
+/* 正文区域 */
+.c-form-item .textarea {
   box-sizing: border-box;
+  background-color: #fff;
+  padding: 20rpx 30rpx;
+  width: 100%;
+  font-size: 32rpx;
+}
+/* 提交按钮 */
+.c-btn-submit {
+  margin: 60rpx 40rpx 20rpx 40rpx;
 }

@@ -1,10 +1,4 @@
-/**index.wxss**/
-
-/* 容器 */
-.container-index {
-  /*padding-bottom: 30rpx;*/
-  background-color: #ddd;
-}
+/* 首页 */
 
 /* 用户信息部分 */
 .userinfo {
@@ -43,82 +37,6 @@
 /* 关注按钮 */
 .userinfo .btn-follow {
   margin-top: 20rpx;
-}
-
-/* tab 切换部分 */
-.tab {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  font-size: 32rpx;
-  background-color: #fff;
-}
-.tab .item {
-  padding: 20rpx;
-  border-bottom: 1px solid #333;
-}
-.tab .active {
-  color: #09bb07;
-  border-bottom-color: #09bb07;
-}
-
-/* 轨迹列表 */
-.diary-list {
-  /*padding-top: 20rpx;*/
-}
-.diary-list .item {
-  margin-top: 20rpx;
-  padding: 20rpx 30rpx;
-  border-bottom: 1px solid #ccc;
-  background-color: #fff;
-}
-.diary-list .title {
-  overflow: hidden;
-}
-.diary-list .title .avatar {
-  width: 60rpx;
-  height: 60rpx;
-  border-radius: 50%;
-  vertical-align: middle;
-}
-.diary-list .title .nickname {
-  margin-left: 10rpx;
-  vertical-align: middle;
-  font-size: 28rpx;
-}
-.diary-list .title .time {
-  float: right;
-  margin-top: 18rpx;
-  font-size: 24rpx;
-  vertical-align: middle;
-}
-.diary-list .pic {
-  margin-top: 20rpx;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.diary-list .pic .img-multi {
-  width: 200rpx;
-  height: 200rpx;
-}
-.diary-list .content {
-  margin-top: 20rpx;
-  font-size: 32rpx;
-}
-.diary-list .meta {
-  margin-top: 20rpx;
-  overflow: hidden;
-}
-.diary-list .meta .text-from {
-  float: left;
-  margin-top: 4rpx;
-  font-size: 28rpx;
-}
-.diary-list .meta .icon {
-  float: right;
-  margin-left: 20rpx;
 }
 
 

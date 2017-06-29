@@ -1,5 +1,5 @@
 <!-- 首页 -->
-<view class="container-index">
+<view class="app-container">
   <!-- 用户信息部分 -->
   <view class="userinfo">
     <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
@@ -16,13 +16,30 @@
   </view>
 
   <!-- tab 切换部分 -->
-  <view class="tab">
-    <text class="item active">轨迹</text>
-    <text class="item">梦想录</text>
+  <view class="c-tab">
+    <block wx:if="{{curTabIndex==1}}">
+      <text data-tabindex="1" bindtap="onToggleTab" class="item active">轨迹</text>
+      <text data-tabindex="2" bindtap="onToggleTab" class="item">梦想录</text>
+    </block>
+    <block wx:elif="{{curTabIndex==2}}">
+      <text data-tabindex="1" bindtap="onToggleTab" class="item">轨迹</text>
+      <text data-tabindex="2" bindtap="onToggleTab" class="item active">梦想录</text>
+    </block>
+  </view>
+
+  <!-- 梦想录列表 -->
+  <view wx:if="{{curTabIndex==2}}" class="diary-sets">
+    <view wx:for="{{diarySetsList}}" class="item">
+      <image class="cover" src="{{item.coverUrl}}"></image>
+      <view class="title">梦想录1</view>
+    </view>
+    <view class="item">
+      <view class="c-addnew"></view>
+    </view>
   </view>
 
   <!-- 轨迹列表 -->
-  <view class="diary-list">
+  <view wx:elif="{{curTabIndex==1}}" class="diary-list">
     <view wx:for="{{diaryList}}" class="item">
       <view class="title">
         <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
