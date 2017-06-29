@@ -1,0 +1,29 @@
+<!--pages/addBottle/addBottle.wxml-->
+<!-- 新增梦境页 -->
+<view class="app-container">
+  <form class="form-adddiary">
+    <view class="c-form-item">
+      <view class="form-el">
+        <!-- 绑定梦想录 -->
+        <picker class="select-item" bindchange="onChangeDiaryPicker" range="{{diaryCollectionTitle}}" value="{{diaryIndex}}">
+          <image class="cover" src="{{diaryCollectionCover[diaryIndex]}}"></image>
+          <text class="text">{{diaryCollectionTitle[diaryIndex]}}</text>
+          <text class="fa fa-angle-right icon-angle"></text>
+        </picker>
+        <!-- 标题 -->
+        <view class="select-item">
+          <view class="c-addnew"></view>
+          <!--<image class="cover" src="{{coverUrl}}"></image>-->
+          <input placeholder-class="form-placeholder" placeholder="标题" />
+        </view>
+        <!-- 简介 -->
+        <view class="select-item">
+          <textarea class="textarea" placeholder-class="form-placeholder" placeholder="简介（选填）" />
+        </view>
+      </view>
+    </view>
+    <!-- 提交按钮 -->
+    <button class="c-btn-submit" form-type="submit" type="primary">提 交</button>
+  </form>
+</view>
+

@@ -7,7 +7,7 @@
       <view class="text-label">选择梦想录</view>
       <view class="form-el">
         <picker class="select-item last" bindchange="onChangeDiaryPicker" range="{{diaryCollectionList}}" value="{{diaryIndex}}">
-          <image class="cover" src="{{userInfo.avatarUrl}}"></image>
+          <image class="cover" src="{{coverUrl}}"></image>
           <text class="text">{{diaryCollectionList[diaryIndex]}}</text>
           <text class="fa fa-angle-right icon-angle"></text>
         </picker>

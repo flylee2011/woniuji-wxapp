@@ -76,6 +76,13 @@ page {
 }
 
 /* 轨迹列表 */
+.diary-title {
+  margin-top: 20rpx;
+  padding: 20rpx 30rpx;
+  font-size: 32rpx;
+  border-bottom: 1px solid #E5E5E5;
+  background-color: #fff;
+}
 .diary-list .item {
   margin-top: 20rpx;
   padding: 20rpx 30rpx;
@@ -156,9 +163,10 @@ page {
 }
 .c-form-item .select-item .cover {
   margin-right: 10rpx;
-  width: 58rpx;
-  height: 58rpx;
+  width: 60rpx;
+  height: 60rpx;
   vertical-align: middle;
+  border-radius: 10%;
 }
 .c-form-item .select-item .text {
   margin-right: 40rpx;
@@ -214,4 +222,23 @@ page {
 /* 提交按钮 */
 .c-btn-submit {
   margin: 60rpx 40rpx 20rpx 40rpx;
+}
+
+/* 表单，新增梦想录、新增梦境 */
+.form-adddiary .select-item {
+  margin-left: 0;
+  padding: 20rpx 30rpx;
+}
+.form-adddiary .select-item .c-addnew {
+  display: inline-block;
+  width: 60rpx;
+  height: 60rpx;
+  vertical-align: middle;
+  margin-right: 30rpx;
+}
+.form-adddiary .select-item .cover {
+  margin-right: 30rpx;
+}
+.form-adddiary .select-item textarea {
+  padding: 0;
 }

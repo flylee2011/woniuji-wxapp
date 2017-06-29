@@ -1,12 +1,21 @@
-<!-- 发现页 -->
+<!--pages/diaryDetail/diaryDetail.wxml-->
+<!-- 梦想录详情页 -->
 <view class="app-container">
-  <!-- tab 切换部分 -->
-  <view class="c-tab">
-    <text class="item active">关注</text>
-    <text class="item">榜单</text>
-    <text class="item">梦想家</text>
+  <!-- 头部，梦想录信息 -->
+  <view class="head">
+    <view class="info">
+      <image class="cover" src="http://woniuji.oss-cn-beijing.aliyuncs.com/temp/avatar.png"></image>
+      <text class="title">学习ukulele计划</text>    
+      <button class="btn-follow" type="primary" size="mini">关注</button>
+      <view class="desc">这里是简介这里是简介这里是简介这里是简介这里是简介这里是简介这里是简介这里是简介这里是简介这里是简介这里是简介</view>
+    </view>
+    <view class="meta">
+      <text class="text-left">梦想家 - <text class="text-nickname">三年二胎周杰伦</text></text>
+      <text class="text-right">轨迹 200•关注 111•赞 300</text>
+    </view>
   </view>
   <!-- 轨迹列表 -->
+  <view class="diary-title">全部轨迹</view>
   <view class="diary-list">
     <view wx:for="{{diaryList}}" class="item">
       <view class="title">
@@ -27,7 +36,6 @@
         <text>如果你无法简洁的表达你的想法，那只说明你还不够了解它。-- 阿尔伯特·爱因斯坦</text>
       </view>
       <view class="meta">
-        <text class="text-from">来自《梦想录 xxx》</text>
         <text class="fa fa-heart-o icon icon-like"></text>
         <text class="fa fa-commenting-o icon icon-comment"></text>
       </view>
@@ -37,4 +45,3 @@
     </view>
   </view>
 </view>
-  

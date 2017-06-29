@@ -1,13 +1,15 @@
 {
   "pages":[
+    "pages/diaryDetail/diaryDetail",
+    "pages/discovery/discovery",
+    "pages/addBottle/addBottle",
+    "pages/addDiary/addDiary",
+    "pages/editinfo/editinfo",
+    "pages/publish/publish",
     "pages/index/index",
     "pages/bottle/bottle",
     "pages/mine/mine",
-    "pages/editinfo/editinfo",
-    "pages/feedback/feedback",
-    "pages/publish/publish",
-    "pages/discovery/discovery"
-    
+    "pages/feedback/feedback"
   ],
   "window":{
     "navigationBarTitleText": "蜗牛记",

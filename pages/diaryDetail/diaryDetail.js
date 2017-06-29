@@ -1,12 +1,14 @@
-// pages/publish/publish.js
+// pages/diaryDetail/diaryDetail.js
+/**
+ * 梦想录详情页
+ */
 
 // 获取应用实例
 var app = getApp();
-
+// 页面数据
 var pageData = {
-  diaryCollectionList: ['梦想录1', '梦想录2', '梦想录3'],
-  diaryIndex: 0,
-  coverUrl: 'http://woniuji.oss-cn-beijing.aliyuncs.com/temp/avatar.png'
+  userInfo: {},
+  diaryList: [{}, {}, {}]
 };
 
 Page({
@@ -77,12 +79,5 @@ Page({
    */
   onShareAppMessage: function () {
   
-  },
-  // 梦想录选择事件
-  onChangeDiaryPicker: function(e) {
-    var curIndex = e.detail.value;
-    this.setData({
-      diaryIndex: curIndex
-    });
   }
-})
+});
