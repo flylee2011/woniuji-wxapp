@@ -1,4 +1,3 @@
-// pages/addDiary/addDiary.js
 /**
  * 新增梦想录页
  */

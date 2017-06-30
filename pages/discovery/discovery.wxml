@@ -2,34 +2,30 @@
 <view class="app-container">
   <!-- tab 切换部分 -->
   <view class="c-tab">
-    <text class="item active">关注</text>
-    <text class="item">榜单</text>
-    <text class="item">梦想家</text>
+    <text data-tabindex="0" bindtap="toggleTab" class="item {{tabStyle[0]}}">关注</text>
+    <text data-tabindex="1" bindtap="toggleTab" class="item {{tabStyle[1]}}">榜单</text>
+    <text data-tabindex="2" bindtap="toggleTab" class="item {{tabStyle[2]}}">梦想录</text>
+    <text data-tabindex="3" bindtap="toggleTab" class="item {{tabStyle[3]}}">梦想家</text>
   </view>
-  <!-- 轨迹列表 -->
-  <view class="diary-list">
-    <view wx:for="{{diaryList}}" class="item">
+  <!-- 关注轨迹列表 -->
+  <view wx:if="{{curTabIndex==0}}" class="diary-list">
+    <view wx:for="{{followDiaryList}}" wx:key="itemid" class="item">
       <view class="title">
-        <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
-        <text class="nickname">三年二胎周杰伦</text>
-        <text class="time">1小时前</text>
+        <image class="avatar" src="{{item.avatar}}"></image>
+        <text class="nickname">{{item.nickname}}</text>
+        <text class="time">{{item.timeline}}</text>
       </view>
-      <view class="pic">
+      <view wx:for="{{item.pic}}" wx:for-item="picItem" class="pic">
         <!--<image src="{{userInfo.avatarUrl}}"></image>-->
-        <image class="img-multi" src="{{userInfo.avatarUrl}}"></image>
-        <image class="img-multi" src="{{userInfo.avatarUrl}}"></image>
-        <image class="img-multi" src="{{userInfo.avatarUrl}}"></image>
-        <image class="img-multi" src="{{userInfo.avatarUrl}}"></image>
-        <image class="img-multi" src="{{userInfo.avatarUrl}}"></image>
-        <image class="img-multi" src="{{userInfo.avatarUrl}}"></image>
+        <image class="img-multi" src="{{picItem}}"></image>
       </view>
       <view class="content">
-        <text>如果你无法简洁的表达你的想法，那只说明你还不够了解它。-- 阿尔伯特·爱因斯坦</text>
+        <text>{{item.content}}</text>
       </view>
       <view class="meta">
-        <text class="text-from">来自《梦想录 xxx》</text>
-        <text class="fa fa-heart-o icon icon-like"></text>
-        <text class="fa fa-commenting-o icon icon-comment"></text>
+        <text bindtap="onClickCollection" data-cid="{{item.collectionId}}" class="text-from">来自《{{item.collectionName}}》</text>
+        <text bindtap="onClickLike" class="fa fa-heart-o icon icon-like"></text>
+        <text bindtap="onClickComment" class="fa fa-commenting-o icon icon-comment"></text>
       </view>
     </view>
     <view class="ball-clip-rotate">

@@ -1,5 +1,6 @@
 <!-- 首页 -->
 <view class="app-container">
+
   <!-- 用户信息部分 -->
   <view class="userinfo">
     <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
@@ -27,23 +28,12 @@
     </block>
   </view>
 
-  <!-- 梦想录列表 -->
-  <view wx:if="{{curTabIndex==2}}" class="diary-sets">
-    <view wx:for="{{diarySetsList}}" class="item">
-      <image class="cover" src="{{item.coverUrl}}"></image>
-      <view class="title">梦想录1</view>
-    </view>
-    <view class="item">
-      <view class="c-addnew"></view>
-    </view>
-  </view>
-
   <!-- 轨迹列表 -->
-  <view wx:elif="{{curTabIndex==1}}" class="diary-list">
+  <view wx:if="{{curTabIndex==1}}" class="diary-list">
     <view wx:for="{{diaryList}}" class="item">
       <view class="title">
-        <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
-        <text class="nickname">三年二胎周杰伦</text>
+        <image bindtap="onClickUser" class="avatar" src="{{userInfo.avatarUrl}}"></image>
+        <text bindtap="onClickUser" class="nickname">三年二胎周杰伦</text>
         <text class="time">1小时前</text>
       </view>
       <view class="pic">
@@ -59,9 +49,9 @@
         <text>如果你无法简洁的表达你的想法，那只说明你还不够了解它。-- 阿尔伯特·爱因斯坦</text>
       </view>
       <view class="meta">
-        <text class="text-from">来自《梦想录 xxx》</text>
-        <text class="fa fa-heart-o icon icon-like"></text>
-        <text class="fa fa-commenting-o icon icon-comment"></text>
+        <text bindtap="onClickCollection" class="text-from">来自《梦想录 xxx》</text>
+        <text bindtap="onClickLike" class="fa fa-heart-o icon icon-like"></text>
+        <text bindtap="onClickComment" class="fa fa-commenting-o icon icon-comment"></text>
       </view>
     </view>
     <view class="ball-clip-rotate">
@@ -69,15 +59,15 @@
     </view>
   </view>
 
-  <!--<view class="item item1">1</view>
-  <view class="item item2">2</view>
-  <view class="item item3">3</view>-->
-  <!--<text class="fa fa-bookmark"></text>-->
-  <!--<view bindtap="bindViewTap" class="userinfo">
-    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
-    <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+  <!-- 梦想录列表 -->
+  <view wx:elif="{{curTabIndex==2}}" class="diary-sets">
+    <view wx:for="{{diarySetsList}}" bindtap="onClickCollection" class="item">
+      <image class="cover" src="{{item.coverUrl}}"></image>
+      <view class="title">梦想录1</view>
+    </view>
+    <view class="item">
+      <view bindtap="onClickAddCollection" class="c-addnew"></view>
+    </view>
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>-->
+
 </view>

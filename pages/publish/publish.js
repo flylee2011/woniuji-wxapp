@@ -1,14 +1,21 @@
-// pages/publish/publish.js
-
+/**
+ * 发布轨迹页
+ */
 // 获取应用实例
 var app = getApp();
 
+// 页面数据
 var pageData = {
-  diaryCollectionList: ['梦想录1', '梦想录2', '梦想录3'],
-  diaryIndex: 0,
-  coverUrl: 'http://woniuji.oss-cn-beijing.aliyuncs.com/temp/avatar.png'
+  // 梦想录列表信息
+  collectionList: [],
+  curCollectionIndex: 0,
+  collectionCoverList: [],
+  // 上传图片
+  uploadImg: [],
+  maxImgCount: 3
 };
 
+// 注册页面
 Page({
 
   /**
@@ -21,12 +28,17 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    //调用应用实例的方法获取全局数据
+    // 获取微信用户数据
     app.getUserInfo(function (userInfo) {
-      //更新数据
       that.setData({
         userInfo: userInfo
       });
+    });
+
+    // test code
+    this.setData({
+      collectionList: ['梦想录1', '梦想录2', '梦想录3'],
+      collectionCoverList: [app.globalData.ossDomain + '/temp/avatar.png', app.globalData.ossDomain + '/temp/avatar.png', app.globalData.ossDomain + '/temp/avatar.png']
     });
   },
 
@@ -78,11 +90,53 @@ Page({
   onShareAppMessage: function () {
   
   },
+
+  // 自定义
   // 梦想录选择事件
   onChangeDiaryPicker: function(e) {
     var curIndex = e.detail.value;
     this.setData({
       diaryIndex: curIndex
+    });
+  },
+  // 点击上传图片
+  onClickAddImg: function(e) {
+    var _this = this;
+
+    // 图片选择
+    wx.chooseImage({
+      count: 3,
+      success: function(res) {
+        console.log(res);
+        var tempFileArr = res.tempFilePaths;
+        _this.setData({
+          uploadImg: _this.data.uploadImg.concat(tempFileArr)
+        });
+      }
+    });
+  },
+  // 点击图片执行操作
+  onClickImg: function(e) {
+    var _this = this;
+    // 图片下标
+    var itemIndex = e.currentTarget.dataset.itemindex;
+    // 图片数据
+    var imgArr = this.data.uploadImg;
+
+    // 操作
+    wx.showActionSheet({
+      itemList: ['删除'],
+      itemColor: '#ff0000',
+      success: function(res) {
+        var tapIndex = res.tapIndex;
+        if (tapIndex == 0) {
+          // 删除
+          imgArr.splice(itemIndex, 1);
+          _this.setData({
+            uploadImg: imgArr
+          });
+        }
+      }
     });
   }
 })

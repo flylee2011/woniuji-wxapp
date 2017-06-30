@@ -1,14 +1,15 @@
 <!-- 发布轨迹页 -->
 <view class="app-container container-pub">
+
   <!-- 表单 -->
   <form class="form-publish">
     <!-- 选择梦想录 -->
     <view class="c-form-item">
       <view class="text-label">选择梦想录</view>
       <view class="form-el">
-        <picker class="select-item last" bindchange="onChangeDiaryPicker" range="{{diaryCollectionList}}" value="{{diaryIndex}}">
-          <image class="cover" src="{{coverUrl}}"></image>
-          <text class="text">{{diaryCollectionList[diaryIndex]}}</text>
+        <picker class="select-item last" bindchange="onChangeDiaryPicker" range="{{collectionList}}" value="{{curCollectionIndex}}">
+          <image class="cover" src="{{collectionCoverList[curCollectionIndex]}}"></image>
+          <text class="text">{{collectionList[curCollectionIndex]}}</text>
           <text class="fa fa-angle-right icon-angle"></text>
         </picker>
       </view>
@@ -19,11 +20,11 @@
       <view class="text-label">上传图片</view>
       <view class="form-el">
         <view class="pic-sets">
-          <view class="item">
-            <image class="img" src="{{userInfo.avatarUrl}}"></image>
-          </view>
-          <view class="c-addnew"></view>
-          <view class="c-blank"></view>
+            <view wx:if="{{uploadImg.length > 0}}" wx:for="{{uploadImg}}" data-itemindex="{{index}}" bindtap="onClickImg" class="item">
+              <image class="img" src="{{item}}"></image>
+            </view>
+            <view wx:if="{{uploadImg.length != 3}}" bindtap="onClickAddImg" class="c-addnew"></view>
+            <view wx:if="{{uploadImg.length == 1}}" class="c-blank"></view>
         </view>
       </view>
     </view>
@@ -39,4 +40,5 @@
     <!-- 提交按钮 -->
     <button class="c-btn-submit" form-type="submit" type="primary">发布</button>
   </form>
+
 </view>

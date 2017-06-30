@@ -1,11 +1,13 @@
-// index.js
+/**
+ * 首页
+ */
+
 // 获取应用实例
-var app = getApp()
+var app = getApp();
 
 // 数据
 var pageData = {
-  motto: 'Hello World',
-  userInfo: {},
+  userInfo: null,
   diaryList: [{}, {}, {}],
   diarySetsList: [{
     coverUrl: 'http://woniuji.oss-cn-beijing.aliyuncs.com/temp/avatar.png'
@@ -27,9 +29,8 @@ Page({
   // 页面加载
   onLoad: function () {
     var that = this;
-    //调用应用实例的方法获取全局数据
+    // 获取微信用户数据
     app.getUserInfo(function(userInfo){
-      //更新数据
       that.setData({
         userInfo:userInfo
       });
@@ -46,26 +47,37 @@ Page({
     }
   },
   // 自定义
-  bindViewTap: function () {
-    // wx.navigateTo({
-    //   url: '../logs/logs'
-    // })
-    // wx.request({
-    //   url: 'http://local.woniuji.me/api/user/autoreg',
-    //   data: {},
-    //   header: {
-    //     'content-type': 'application/json'
-    //   },
-    //   success: function (res) {
-    //     console.log(res);
-    //   }
-    // });
-  },
   // 切换 tab
   onToggleTab: function(e) {
     var curTabIndex = e.currentTarget.dataset.tabindex;
     this.setData({
       curTabIndex: curTabIndex
+    });
+  },
+  // 点击用户昵称和头像
+  onClickUser: function(e) {
+
+  },
+  // 点击评论
+  onClickComment: function(e) {
+    wx.navigateTo({
+      url: app.globalData.pageUrl.commentList
+    });
+  },
+  // 点击赞
+  onClickLike: function(e) {
+    console.log(e);
+  },
+  // 点击梦想录
+  onClickCollection: function(e) {
+    wx.navigateTo({
+      url: app.globalData.pageUrl.collectionDetail
+    });
+  },
+  // 点击新增梦想录
+  onClickAddCollection: function(e) {
+    wx.navigateTo({
+      url: app.globalData.pageUrl.addCollection
     });
   }
 });
