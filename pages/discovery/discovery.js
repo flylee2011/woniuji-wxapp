@@ -26,7 +26,7 @@ Page({
   // 页面加载
   onLoad: function () {
     var that = this;
-    // 获取微信用户数据
+    // 获取用户数据
     app.getUserInfo(function (userInfo) {
       that.setData({
         userInfo: userInfo

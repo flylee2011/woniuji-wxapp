@@ -1,47 +1,132 @@
-// app.js
+/**
+ * app 入口
+ */
 App({
   // 初始化
   onLaunch: function() {
-    // 调用API从本地缓存中获取数据
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+    // 登录流程
+    this.initWxLogin();
   },
-  // app 显示
-  onShow: function() {
-    console.log('app show');
-  },
-  // app 隐藏
-  onHide: function() {
-    console.log('app hide');
-  },
-  // 错误监听
-  onError: function() {
-    console.log('app error');
-  },
+
   // 自定义方法
-  // 获取微信用户数据
+  // 微信登录流程
+  initWxLogin: function() {
+    var _this = this;
+
+    // 判断是否有 session
+    var thirdSession = wx.getStorageSync('third_session');
+    if(!thirdSession) {
+      this.doWxLogin();
+      return;
+    }
+    // 检测登录态时效性
+    wx.checkSession({
+      success: function () {
+        // 登录态有效
+      },
+      fail: function () {
+        // 登录态过期，需要重新登录
+        _this.doWxLogin();
+      }
+    });
+  },
+  // 调用微信登录接口，获取登录凭证code和session
+  doWxLogin: function (callback) {
+    var _this = this;
+
+    wx.login({
+      success: function (res) {
+        var code = res.code;
+        // 请求微信登录接口获取session
+        wx.request({
+          url: 'http://local.woniuji.cn:8001/api/user/wxapp_login',
+          data: {
+            code: code
+          },
+          success: function (res) {
+            res = res.data;
+            var code = res.code;
+            if(code == 200) {
+              // 成功
+              // 在本地存储保存 session 信息
+              wx.setStorageSync('third_session', res.data.third_session);
+              if(callback) {
+                callback();
+              }
+            }
+          }
+        });
+      },
+      fail: function () { },
+      complete: function () { }
+    });
+  },
+
+  // 获取用户信息，在对应的 page 页面调用
   getUserInfo: function(cb) {
-    var that = this
+    var _this = this;
     if (this.globalData.userInfo) {
-      typeof cb == "function" && cb(this.globalData.userInfo)
+      // 全局数据有用户信息
+      typeof cb == "function" && cb(this.globalData.userInfo);
     } else {
-      //调用登录接口
+      // 全局数据没有用户信息
       wx.getUserInfo({
-        withCredentials: false,
+        withCredentials: true,
         success: function(res) {
-          // console.log('userinfo,', res);
-          that.globalData.userInfo = res.userInfo
-          typeof cb == "function" && cb(that.globalData.userInfo)
+          var thirdSession = wx.getStorageSync('third_session');
+          // 判断是否有客户端 session
+          // 如果没有，需要走 wx.login 流程
+          // 如果有，走自动注册
+          if(!thirdSession) {
+            _this.doWxLogin(function() {
+              _this.doWxappAutoreg(res, function() {
+                typeof cb == "function" && cb(_this.globalData.userInfo);
+              });
+            });
+          }else {
+            _this.doWxappAutoreg(res, function () {
+              typeof cb == "function" && cb(_this.globalData.userInfo);
+            });
+          }
         }
-      })
+      });
     }
   },
+  // 自动注册
+  // 没有用户自动注册，有用户返回用户信息
+  doWxappAutoreg: function(data, callback) {
+    var _this = this;
+    // 请求数据，需要解密
+    var reqData = {
+      encryptedData: data.encryptedData,
+      iv: data.iv,
+      thirdSession: wx.getStorageSync('third_session')
+    };
+    // 调用户接口
+    wx.request({
+      url: 'http://local.woniuji.cn:8001/api/user/wxapp_autoreg',
+      data: reqData,
+      success: function (res) {
+        res = res.data;
+        var code = res.code;
+        if (code == 200) {
+          // 保存用户信息到全局数据字段
+          _this.globalData.userInfo = res.data;
+        }
+      },
+      complete: function() {
+        if(callback) {
+          callback();
+        }
+      }
+    });
+  },
+
   // 全局数据
   globalData: {
     // 调试
     debug: true,
-    // 微信用户数据
+    // 用户数据
     userInfo: null,
     // 接口域名
     apiDomainDebug: 'http://local.woniuji.cn',
