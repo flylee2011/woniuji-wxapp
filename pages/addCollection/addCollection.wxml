@@ -1,18 +1,22 @@
 <!--pages/addDiary/addDiary.wxml-->
 <!-- 新增梦想录页 -->
 <view class="app-container">
-  <form class="form-adddiary">
+  <form bindsubmit="onSubmitForm" class="form-adddiary">
     <view class="c-form-item">
       <view class="form-el">
         <!-- 标题 -->
         <view class="select-item">
-          <view class="c-addnew"></view>
-          <!--<image class="cover" src="{{coverUrl}}"></image>-->
-          <input placeholder-class="form-placeholder" placeholder="标题" />
+          <block wx:if="{{coverImgTempPath || coverImgUrl}}">
+            <image class="cover" src="{{coverImgTempPath || coverImgUrl}}"></image>
+          </block>
+          <block wx:else>
+            <view bindtap="onTapCover" class="c-addnew"></view>
+          </block>
+          <input name="title" placeholder-class="form-placeholder" placeholder="标题" />
         </view>
         <!-- 简介 -->
         <view class="select-item">
-          <textarea class="textarea" placeholder-class="form-placeholder" placeholder="简介（选填）" />
+          <textarea name="desc" class="textarea" placeholder-class="form-placeholder" placeholder="简介（选填）" />
         </view>
       </view>
     </view>

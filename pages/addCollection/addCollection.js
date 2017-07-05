@@ -1,11 +1,17 @@
 /**
- * 新增梦想录页
+ * 新增/编辑梦想录页
  */
-
+// 应用实例
+var app = getApp();
 // 页面数据
 var pageData = {
-  coverUrl: 'http://woniuji.oss-cn-beijing.aliyuncs.com/temp/avatar.png'
+  coverImgTempPath: '',
+  coverImgUrl: '',
+  title: '',
+  desc: ''
 };
+// 图片上传组件
+var $uploadFile = require('../../utils/alioss/uploadFile');
 
 Page({
 
@@ -18,7 +24,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    var _this = this;
+
+    if(!app.globalData.userInfo) {
+      // 需要登录
+      console.log('need login');
+    }
+
+    console.log('query, ', options.query);
   },
 
   /**
@@ -68,5 +81,33 @@ Page({
    */
   onShareAppMessage: function () {
   
+  },
+
+  // 自定义
+  // 点击选择封面图
+  onTapCover: function() {
+    var _this = this;
+    // 选择图片
+    wx.chooseImage({
+      count: 1,
+      success: function(res) {
+        _this.setData({
+          coverImgTempPath: res.tempFilePaths[0]
+        });
+      }
+    });
+  },
+  // 上传封面图
+  doUploadCover: function(filePath) {
+    $uploadFile({
+      filePath: filePath,
+      callback: function(res) {
+        console.log(res);
+      }
+    });
+  },
+  // 提交表单
+  onSubmitForm: function(e) {
+    console.log(e.detail.value);
   }
 });

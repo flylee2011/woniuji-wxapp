@@ -1,16 +1,15 @@
 {
   "pages":[
-    "pages/publish/publish",
     "pages/discovery/discovery",
-    
-    
     "pages/addCollection/addCollection",
+
+    "pages/publish/publish",
+    
     "pages/followList/followList",
     "pages/commentList/commentList",
     "pages/collectionDetail/collectionDetail",
     "pages/addBottle/addBottle",
     "pages/editInfo/editInfo",
-    
     "pages/index/index",
     "pages/bottle/bottle",
     "pages/mine/mine",

@@ -26,12 +26,18 @@ Page({
   data: pageData,
   // 页面加载
   onLoad: function () {
-    var that = this;
+    var _this = this;
+
+    wx.showLoading({
+      title: '登录中...',
+    });
     // 获取用户数据
     app.getUserInfo(function (userInfo) {
-      that.setData({
+      _this.setData({
         userInfo: userInfo
       });
+
+      wx.hideLoading();
     });
 
     // 测试数据

@@ -36,18 +36,30 @@ var getSignature = function (policyBase64) {
 
   return signature;
 }
+// 补0方法
+var fixZero = function(num) {
+  var fixNum = parseInt(num, 10);
+  if (fixNum < 10) {
+    fixNum = '0' + fixNum;
+  }
+  return fixNum;
+}
 
 // 上传文件
 var uploadFile = function (options) {
+  var date = new Date();
   // 参数
   var uploadOpt = {
     // 临时文件
     filePath: options.filePath,
     // 存储目录
-    fileDir: options.fileDir || 'others/',
+    fileDir: date.getFullYear() + '' + fixZero(date.getMonth() + 1) + '' + fixZero(date.getDate()) + '/',
     // 回调
     callback: options.callback
   };
+  if(globalVars.debug) {
+    uploadOpt.fileDir = 'test/' + uploadOpt.fileDir;
+  }
 
   if (!uploadOpt.filePath) {
     // 模态弹框
