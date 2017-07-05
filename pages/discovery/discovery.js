@@ -3,6 +3,7 @@
  */
 // 获取应用实例
 var app = getApp();
+var globalVars = require('../../utils/globalVars');
 
 // 数据
 var pageData = {
@@ -58,9 +59,10 @@ Page({
   // 分享
   onShareAppMessage: function () {
     return {
-      title: app.globalData.shareTitle
+      title: globalVars.shareTitle
     }
   },
+
   // 自定义
   // 切换 tab 栏
   toggleTab: function(e) {
@@ -105,7 +107,5 @@ Page({
     });
   },
   // 点击赞
-  onClickLike: function(e) {
-
-  }
+  onClickLike: function(e) {}
 });

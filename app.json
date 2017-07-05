@@ -1,7 +1,8 @@
 {
   "pages":[
-    "pages/discovery/discovery",
     "pages/publish/publish",
+    "pages/discovery/discovery",
+    
     
     "pages/addCollection/addCollection",
     "pages/followList/followList",

@@ -3,7 +3,7 @@
 
   <!-- 用户信息部分 -->
   <view class="userinfo">
-    <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+    <image class="avatar" src="{{userInfo.avatar}}"></image>
     <view class="nickname">
       <text>三年二胎周杰伦</text>
       <text class="fa fa-mars"></text>

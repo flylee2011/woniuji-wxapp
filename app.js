@@ -1,6 +1,8 @@
 /**
  * app 入口
  */
+var globalVars = require('./utils/globalVars');
+
 App({
   // 初始化
   onLaunch: function() {
@@ -39,7 +41,7 @@ App({
         var code = res.code;
         // 请求微信登录接口获取session
         wx.request({
-          url: 'http://local.woniuji.cn:8001/api/user/wxapp_login',
+          url: globalVars.apiDomain + '/api/user/wxapp_login',
           data: {
             code: code
           },
@@ -104,7 +106,7 @@ App({
     };
     // 调用户接口
     wx.request({
-      url: 'http://local.woniuji.cn:8001/api/user/wxapp_autoreg',
+      url: globalVars.apiDomain + '/api/user/wxapp_autoreg',
       data: reqData,
       success: function (res) {
         res = res.data;
@@ -124,15 +126,8 @@ App({
 
   // 全局数据
   globalData: {
-    // 调试
-    debug: true,
     // 用户数据
     userInfo: null,
-    // 接口域名
-    apiDomainDebug: 'http://local.woniuji.cn',
-    apiDomain: 'https://woniuji.cn',
-    // oss 域名
-    ossDomain: 'http://woniuji.oss-cn-beijing.aliyuncs.com',
     // 页面 url
     pageUrl: {
       // tabbar 页
@@ -160,8 +155,6 @@ App({
       feedback: '/pages/feedback/feedback',
       // 新建梦境
       addBottle: '/pages/addBottle/addBottle'
-    },
-    // 分享数据
-    shareTitle: '蜗牛记-让世界看到你的坚持'
+    }
   }
 });

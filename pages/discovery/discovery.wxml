@@ -2,8 +2,8 @@
 <view class="app-container">
   <!-- tab 切换部分 -->
   <view class="c-tab">
-    <text data-tabindex="0" bindtap="toggleTab" class="item {{tabStyle[0]}}">关注</text>
-    <text data-tabindex="1" bindtap="toggleTab" class="item {{tabStyle[1]}}">榜单</text>
+    <text data-tabindex="0" bindtap="toggleTab" class="item {{tabStyle[0]}}">榜单</text>
+    <text data-tabindex="1" bindtap="toggleTab" class="item {{tabStyle[1]}}">关注</text>
     <text data-tabindex="2" bindtap="toggleTab" class="item {{tabStyle[2]}}">梦想录</text>
     <text data-tabindex="3" bindtap="toggleTab" class="item {{tabStyle[3]}}">梦想家</text>
   </view>

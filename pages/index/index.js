@@ -4,6 +4,7 @@
 
 // 获取应用实例
 var app = getApp();
+var globalVars = require('../../utils/globalVars');
 
 // 数据
 var pageData = {
@@ -43,7 +44,7 @@ Page({
   // 分享
   onShareAppMessage: function() {
     return {
-      title: app.globalData.shareTitle
+      title: globalVars.shareTitle
     }
   },
   // 自定义

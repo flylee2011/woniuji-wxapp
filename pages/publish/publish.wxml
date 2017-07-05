@@ -2,7 +2,7 @@
 <view class="app-container container-pub">
 
   <!-- 表单 -->
-  <form class="form-publish">
+  <form bindsubmit="onSubmitPublishForm" class="form-publish">
     <!-- 选择梦想录 -->
     <view class="c-form-item">
       <view class="text-label">选择梦想录</view>

@@ -3,6 +3,9 @@
  */
 // 获取应用实例
 var app = getApp();
+// 上传组件
+var uploadFile = require('../../utils/alioss/uploadFile');
+var globalVars = require('../../utils/globalVars');
 
 // 页面数据
 var pageData = {
@@ -38,7 +41,7 @@ Page({
     // test code
     this.setData({
       collectionList: ['梦想录1', '梦想录2', '梦想录3'],
-      collectionCoverList: [app.globalData.ossDomain + '/temp/avatar.png', app.globalData.ossDomain + '/temp/avatar.png', app.globalData.ossDomain + '/temp/avatar.png']
+      collectionCoverList: [globalVars.aliyun.ossDomain + '/temp/avatar.png', globalVars.aliyun.ossDomain + '/temp/avatar.png', globalVars.aliyun.ossDomain + '/temp/avatar.png']
     });
   },
 
@@ -138,5 +141,19 @@ Page({
         }
       }
     });
+  },
+  // 提交表单
+  onSubmitPublishForm: function() {
+    var uploadImgData = this.data.uploadImg;
+    console.log(uploadImgData);
+
+    for(var i=0; i<uploadImgData.length; i++) {
+      uploadFile({
+        filePath: uploadImgData[i],
+        callback: function(res) {
+          console.log(res);
+        }
+      });
+    }
   }
 })
