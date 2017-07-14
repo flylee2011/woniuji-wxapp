@@ -1,0 +1,40 @@
+<!--pages/mine/mine.wxml-->
+<!-- 我的页 -->
+<view class="app-container">
+  <!-- 页头 -->
+  <view class="head">
+    <view class="cover-box">
+      <image src="http://pic.58pic.com/58pic/15/64/31/22358PICjRQ_1024.jpg"></image>
+    </view>
+    <view class="avatar-box">
+      <image src="{{userInfo.avatarUrl}}"></image>
+      <!--<view class="nickname">
+        <text>三年二胎周杰伦</text>
+        <text class="fa fa-mars"></text>
+      </view>-->
+    </view>
+  </view>
+  <!-- 选项 -->
+  <view class="section">
+    <view class="c-form-item">
+      <view class="form-el">
+        <view data-pageid="1" bindtap="onClickOption" class="select-item">
+          <text class="text">编辑基础资料</text>
+          <text class="fa fa-angle-right icon-angle no-cover"></text>
+        </view>
+        <view data-pageid="2" bindtap="onClickOption" class="select-item">
+          <text class="text">消息</text>
+          <text class="fa fa-angle-right icon-angle no-cover"></text>
+        </view>
+        <view data-pageid="3" bindtap="onClickOption" class="select-item">
+          <text class="text">蜗牛记是什么？</text>
+          <text class="fa fa-angle-right icon-angle no-cover"></text>
+        </view>
+        <view data-pageid="4" bindtap="onClickOption" class="select-item last">
+          <text class="text">提交Bug给程序员GG</text>
+          <text class="fa fa-angle-right icon-angle no-cover"></text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

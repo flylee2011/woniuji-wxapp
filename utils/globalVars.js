@@ -1,12 +1,13 @@
 /**
- * 全局参数
+ * 全局配置
  */
-
 var globalVars = {
   // 调试状态
   debug: true,
   // 域名
   apiDomain: 'https://woniuji.cn',
+  // 每页条数
+  listPageSize: 10,
   // 分享数据
   shareTitle: '蜗牛记-让世界看到你的坚持',
   // 阿里云配置

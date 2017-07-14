@@ -3,6 +3,8 @@
  */
 // 应用实例
 var app = getApp();
+// 配置
+var globalVars = require('../../utils/globalVars');
 // 页面数据
 var pageData = {
   coverImgTempPath: '',
@@ -109,5 +111,21 @@ Page({
   // 提交表单
   onSubmitForm: function(e) {
     console.log(e.detail.value);
+
+    var formVal = e.detail.value;
+    var reqData = {
+      uid: app.globalData.userInfo.id,
+      sessionId: wx.getStorageSync('sessionId'),
+      title: formVal.title,
+      desc: formVal.desc
+    };
+    wx.request({
+      url: globalVars.apiDomain + '/api/collection/add',
+      method: 'POST',
+      data: reqData,
+      success: function(res) {
+        console.log(res);
+      }
+    });
   }
 });

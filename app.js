@@ -16,8 +16,8 @@ App({
     var _this = this;
 
     // 判断是否有 session
-    var thirdSession = wx.getStorageSync('third_session');
-    if(!thirdSession) {
+    var sessionId = wx.getStorageSync('sessionId');
+    if (!sessionId) {
       this.doWxLogin();
       return;
     }
@@ -51,7 +51,7 @@ App({
             if(code == 200) {
               // 成功
               // 在本地存储保存 session 信息
-              wx.setStorageSync('third_session', res.data.third_session);
+              wx.setStorageSync('sessionId', res.data.sessionId);
               if(callback) {
                 callback();
               }
@@ -63,8 +63,7 @@ App({
       complete: function () { }
     });
   },
-
-  // 获取用户信息，在对应的 page 页面调用
+  // 获取用户信息，在对应的 page 调用
   getUserInfo: function(cb) {
     var _this = this;
     if (this.globalData.userInfo) {
@@ -75,11 +74,11 @@ App({
       wx.getUserInfo({
         withCredentials: true,
         success: function(res) {
-          var thirdSession = wx.getStorageSync('third_session');
+          var sessionId = wx.getStorageSync('sessionId');
           // 判断是否有客户端 session
           // 如果没有，需要走 wx.login 流程
           // 如果有，走自动注册
-          if(!thirdSession) {
+          if (!sessionId) {
             _this.doWxLogin(function() {
               _this.doWxappAutoreg(res, function() {
                 typeof cb == "function" && cb(_this.globalData.userInfo);
@@ -102,7 +101,7 @@ App({
     var reqData = {
       encryptedData: data.encryptedData,
       iv: data.iv,
-      thirdSession: wx.getStorageSync('third_session')
+      sessionId: wx.getStorageSync('sessionId')
     };
     // 调用户接口
     wx.request({
@@ -120,6 +119,20 @@ App({
         if(callback) {
           callback();
         }
+      }
+    });
+  },
+
+  // 点击登录按钮，供需要的 page 调用
+  onTapWxLogin: function(callback) {
+    wx.showLoading({
+      title: '登录中...',
+    });
+    // 获取用户数据
+    this.getUserInfo(function (userInfo) {
+      wx.hideLoading();
+      if(callback) {
+        callback(userInfo);
       }
     });
   },
@@ -149,6 +162,8 @@ App({
       commentList: '/pages/commentList/commentList',
       // 关注/粉丝
       followList: '/pages/followList/followList',
+      // 设置页
+      setting: '/pages/setting/setting',
       // 编辑基础资料
       editInfo: '/pages/editInfo/editInfo',
       // 问题反馈

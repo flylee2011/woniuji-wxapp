@@ -1,18 +1,17 @@
 {
   "pages":[
+    "pages/mine/mine",
     "pages/discovery/discovery",
     "pages/addCollection/addCollection",
-
     "pages/publish/publish",
-    
     "pages/followList/followList",
     "pages/commentList/commentList",
     "pages/collectionDetail/collectionDetail",
     "pages/addBottle/addBottle",
     "pages/editInfo/editInfo",
-    "pages/index/index",
+    "pages/setting/setting",
     "pages/bottle/bottle",
-    "pages/mine/mine",
+    
     "pages/feedback/feedback"
   ],
   "window":{
@@ -29,11 +28,6 @@
     "backgroundColor": "#F8F8FA",
     "borderStyle": "black",
     "list": [{
-      "pagePath": "pages/index/index",
-      "text": "首页",
-      "iconPath": "images/icon-tabbar.png",
-      "selectedIconPath": "images/icon-tabbar.png"
-    }, {
       "pagePath": "pages/discovery/discovery",
       "text": "发现",
       "iconPath": "images/icon-tabbar.png",
@@ -41,11 +35,6 @@
     }, {
       "pagePath": "pages/publish/publish",
       "text": "发布",
-      "iconPath": "images/icon-tabbar.png",
-      "selectedIconPath": "images/icon-tabbar.png"
-    }, {
-      "pagePath": "pages/bottle/bottle",
-      "text": "梦境",
       "iconPath": "images/icon-tabbar.png",
       "selectedIconPath": "images/icon-tabbar.png"
     }, {

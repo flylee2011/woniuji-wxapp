@@ -242,3 +242,18 @@ page {
 .form-adddiary .select-item textarea {
   padding: 0;
 }
+
+/* 登录 */
+.pl-login-box {
+  padding: 50% 60rpx 0 60rpx;
+}
+
+/* 列表空状态 */
+.pl-empty {
+  margin-top: 40rpx;
+  text-align: center;
+  font-size: 32rpx;
+}
+.pl-empty .text-highlight {
+  color: #09bb07;
+}
