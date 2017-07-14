@@ -1,12 +1,11 @@
-// pages/mine/mine.js
-// 我的页
+// 设置页
 
 // 获取应用实例
 var app = getApp();
 
 // 数据
 var pageData = {
-  userinfo: null
+  userInfo: null
 };
 
 Page({
@@ -20,11 +19,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var that = this;
-    //调用应用实例的方法获取全局数据
+    var _this = this;
+    // 获取用户数据
     app.getUserInfo(function (userInfo) {
-      //更新数据
-      that.setData({
+      _this.setData({
         userInfo: userInfo
       });
     });
@@ -85,7 +83,7 @@ Page({
     switch(pageId) {
       case '1':
         wx.navigateTo({
-          url: '/pages/editinfo/editinfo',
+          url: '/pages/editInfo/editInfo',
         });
         break;
       case '4':

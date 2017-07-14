@@ -1,6 +1,6 @@
-<!--pages/addDiary/addDiary.wxml-->
 <!-- 新增梦想录页 -->
 <view class="app-container">
+
   <form bindsubmit="onSubmitForm" class="form-adddiary">
     <view class="c-form-item">
       <view class="form-el">
@@ -21,6 +21,8 @@
       </view>
     </view>
     <!-- 提交按钮 -->
-    <button class="c-btn-submit" form-type="submit" type="primary">提 交</button>
+    <button wx:if="{{reqLock}}" class="c-btn-submit" form-type="submit" type="primary" loading="true">提交中...</button>
+    <button wx:else class="c-btn-submit" form-type="submit" type="primary">提 交</button>
   </form>
+
 </view>

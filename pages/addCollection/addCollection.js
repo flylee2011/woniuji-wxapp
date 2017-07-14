@@ -5,18 +5,19 @@
 var app = getApp();
 // 配置
 var globalVars = require('../../utils/globalVars');
+// 图片上传组件
+var $uploadFile = require('../../utils/alioss/uploadFile');
 // 页面数据
 var pageData = {
+  userInfo: null,
   coverImgTempPath: '',
   coverImgUrl: '',
   title: '',
-  desc: ''
+  desc: '',
+  reqLock: false
 };
-// 图片上传组件
-var $uploadFile = require('../../utils/alioss/uploadFile');
 
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -27,11 +28,12 @@ Page({
    */
   onLoad: function (options) {
     var _this = this;
-
-    if(!app.globalData.userInfo) {
-      // 需要登录
-      console.log('need login');
-    }
+    // 获取用户数据
+    app.getUserInfo(function(userInfo) {
+      _this.setData({
+        userInfo: userInfo
+      });
+    });
 
     console.log('query, ', options.query);
   },
@@ -40,41 +42,6 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
   
   },
 
@@ -100,32 +67,85 @@ Page({
     });
   },
   // 上传封面图
-  doUploadCover: function(filePath) {
+  doUploadCover: function(filePath, callback) {
+    if(!filePath) {
+      return;
+    }
     $uploadFile({
       filePath: filePath,
       callback: function(res) {
-        console.log(res);
+        if(callback) {
+          callback(res);
+        }
       }
     });
   },
   // 提交表单
   onSubmitForm: function(e) {
-    console.log(e.detail.value);
-
+    var _this = this;
     var formVal = e.detail.value;
     var reqData = {
       uid: app.globalData.userInfo.id,
       sessionId: wx.getStorageSync('sessionId'),
       title: formVal.title,
-      desc: formVal.desc
+      desc: formVal.desc,
+      coverUrl: ''
     };
+    var coverImgTempPath = this.data.coverImgTempPath;
+    if (this.data.reqLock) {
+      return;
+    }
+    this.setData({
+      reqLock: true
+    });
+
+    if(coverImgTempPath) {
+      // 有图片，上传图片
+      _this.doUploadCover(coverImgTempPath, function(res) {
+        if(res.code == 200) {
+          reqData.coverUrl = res.data;
+          _this.reqAddCollectionApi(reqData);
+        }else {
+          
+        }
+      });
+    }else {
+      _this.reqAddCollectionApi(reqData);
+    }
+  },
+  // 请求新增梦想录接口
+  reqAddCollectionApi: function(data) {
+    var _this = this;
     wx.request({
       url: globalVars.apiDomain + '/api/collection/add',
       method: 'POST',
-      data: reqData,
-      success: function(res) {
-        console.log(res);
+      data: data,
+      success: function (res) {
+        res = res.data;
+        if (res.code == 200) {
+          wx.showToast({
+            title: '创建成功',
+          });
+        } else {
+
+        }
+      },
+      complete: function() {
+        _this.setData({
+          reqLock: false
+        });
+      },
+      fail: function() {
+
       }
     });
+  },
+  // 请求更新梦想录接口
+  reqUpdateCollectionApi: function (data, callback) {
+
+  },
+  // 请求梦想录详情接口
+  reqCollectionDetailApi: function() {
+
   }
 });

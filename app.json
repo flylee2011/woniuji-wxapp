@@ -1,6 +1,9 @@
 {
   "pages":[
     "pages/mine/mine",
+    "pages/editInfo/editInfo",
+    "pages/setting/setting",
+    
     "pages/discovery/discovery",
     "pages/addCollection/addCollection",
     "pages/publish/publish",
@@ -8,10 +11,7 @@
     "pages/commentList/commentList",
     "pages/collectionDetail/collectionDetail",
     "pages/addBottle/addBottle",
-    "pages/editInfo/editInfo",
-    "pages/setting/setting",
     "pages/bottle/bottle",
-    
     "pages/feedback/feedback"
   ],
   "window":{

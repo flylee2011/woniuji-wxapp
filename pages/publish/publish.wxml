@@ -1,6 +1,8 @@
 <!-- 发布轨迹页 -->
-<view class="app-container container-pub">
+<view wx:if="{{!loadingLock}}" class="app-container container-pub">
 
+  <!-- 判断是否有梦想录信息 -->
+  <block wx:if="{{collectionList.length > 0}}">
   <!-- 表单 -->
   <form bindsubmit="onSubmitPublishForm" class="form-publish">
     <!-- 选择梦想录 -->
@@ -40,5 +42,11 @@
     <!-- 提交按钮 -->
     <button class="c-btn-submit" form-type="submit" type="primary">发布</button>
   </form>
+  </block>
+  <block wx:else>
+  <view class="pl-empty">
+    <text>还没有梦想录，快去 <text class="text-highlight">创建吧~</text></text>
+  </view>
+  </block>
 
 </view>

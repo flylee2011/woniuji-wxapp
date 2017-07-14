@@ -58,7 +58,7 @@
       </view>
       <!-- 判断是否加载完毕 && 没有内容 -->
       <block wx:if="{{diaryListDone && diaryList.length == 0}}">
-      <view class="pl-empty">
+      <view bindtap="onTapAddDiary" class="pl-empty">
         <text>还没有内容，快去 <text class="text-highlight">发布吧~</text></text>
       </view>
       </block>
@@ -73,20 +73,23 @@
       <!-- 渲染列表 -->
       <view wx:if="{{collectionList.length > 0}}" class="diary-sets">
         <view wx:for="{{collectionList}}" bindtap="onTapCollection" class="item">
-          <image class="cover" src="{{item.coverUrl}}"></image>
+          <image class="cover" src="{{ossDomain + '/' + item.cover_url}}"></image>
           <view class="title">{{item.title}}</view>
         </view>
         <view class="item">
           <view bindtap="onTapAddCollection" class="c-addnew"></view>
         </view>
+        <view wx:if="{{collectionList.length % 3 == 1}}" class="item">
+          <view class="c-blank"></view>
+        </view>
       </view>
       <!-- 判断是否加载完毕 && 没有内容 -->
       <block wx:if="{{collectionListDone && collectionList.length == 0}}">
-      <view class="pl-empty">
+      <view bindtap="onTapAddCollection" class="pl-empty">
         <text>还没有内容，快去 <text class="text-highlight">发布吧~</text></text>
       </view>
       </block>
-      <block wx:else>
+      <block wx:elif="{{!collectionListDone}}">
       <view class="ball-clip-rotate">
         <view class="box"></view>
       </view>

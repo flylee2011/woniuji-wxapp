@@ -1,19 +1,18 @@
-<!--pages/mine/mine.wxml-->
-<!-- 我的页 -->
+<!-- 设置页 -->
 <view class="app-container">
   <!-- 页头 -->
-  <view class="head">
+  <!-- <view class="head">
     <view class="cover-box">
       <image src="http://pic.58pic.com/58pic/15/64/31/22358PICjRQ_1024.jpg"></image>
     </view>
     <view class="avatar-box">
-      <image src="{{userInfo.avatarUrl}}"></image>
+      <image src="{{userInfo.avatarUrl}}"></image> -->
       <!--<view class="nickname">
         <text>三年二胎周杰伦</text>
         <text class="fa fa-mars"></text>
       </view>-->
-    </view>
-  </view>
+    <!-- </view>
+  </view> -->
   <!-- 选项 -->
   <view class="section">
     <view class="c-form-item">

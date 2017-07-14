@@ -3,19 +3,21 @@
  */
 // 获取应用实例
 var app = getApp();
+// 配置
+var globalVars = require('../../utils/globalVars');
 // 上传组件
 var uploadFile = require('../../utils/alioss/uploadFile');
-var globalVars = require('../../utils/globalVars');
 
 // 页面数据
 var pageData = {
   // 梦想录列表信息
   collectionList: [],
-  curCollectionIndex: 0,
   collectionCoverList: [],
+  curCollectionIndex: 0,
   // 上传图片
   uploadImg: [],
-  maxImgCount: 3
+  maxImgCount: 3,
+  loadingLock: true
 };
 
 // 注册页面
@@ -30,60 +32,28 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var that = this;
-    // 获取微信用户数据
-    app.getUserInfo(function (userInfo) {
-      that.setData({
+    var _this = this;
+    // 获取用户信息
+    app.getUserInfo(function(userInfo) {
+      _this.setData({
         userInfo: userInfo
       });
+      if(userInfo) {
+        _this.getCollecionInfo();
+      }
     });
 
-    // test code
-    this.setData({
-      collectionList: ['梦想录1', '梦想录2', '梦想录3'],
-      collectionCoverList: [globalVars.aliyun.ossDomain + '/temp/avatar.png', globalVars.aliyun.ossDomain + '/temp/avatar.png', globalVars.aliyun.ossDomain + '/temp/avatar.png']
-    });
+    // // test code
+    // this.setData({
+    //   collectionList: ['梦想录1', '梦想录2', '梦想录3'],
+    //   collectionCoverList: [globalVars.aliyun.ossDomain + '/temp/avatar.png', globalVars.aliyun.ossDomain + '/temp/avatar.png', globalVars.aliyun.ossDomain + '/temp/avatar.png']
+    // });
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
   
   },
 
@@ -155,5 +125,36 @@ Page({
         }
       });
     }
+  },
+  // 获取梦想录信息
+  getCollecionInfo: function() {
+    var _this = this;
+    this.reqCollectionListApi(function(res) {
+      console.log(res);
+
+      _this.setData({
+        loadingLock: false
+      });
+    });
+  },
+  // 请求梦想录列表接口
+  reqCollectionListApi: function(callback) {
+    var userInfo = this.data.userInfo;
+    // 参数
+    var reqData = {
+      page: 1,
+      pageSize: 1000,
+      order: 'update_time',
+      uid: userInfo.id
+    };
+    wx.request({
+      url: globalVars.apiDomain + '/api/collection/list',
+      data: reqData,
+      success: function(res) {
+        if(callback) {
+          callback(res.data);
+        }
+      }
+    });
   }
 })

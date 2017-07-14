@@ -31,7 +31,8 @@ var pageData = {
   },
   collectionListDone: false,
   // tab 位置
-  curTabIndex: 1
+  curTabIndex: 1,
+  ossDomain: globalVars.aliyun.ossDomain
 };
 
 // 注册页面
@@ -117,6 +118,18 @@ Page({
   onTapSetting: function(e) {
     wx.navigateTo({
       url: app.globalData.pageUrl.setting
+    });
+  },
+  // 点击新建轨迹
+  onTapAddDiary: function() {
+    wx.switchTab({
+      url: app.globalData.pageUrl.publish
+    });
+  },
+  // 点击新建梦想录
+  onTapAddCollection: function() {
+    wx.navigateTo({
+      url: app.globalData.pageUrl.addCollection
     });
   },
   // 渲染列表
