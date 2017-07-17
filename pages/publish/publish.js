@@ -12,12 +12,14 @@ var uploadFile = require('../../utils/alioss/uploadFile');
 var pageData = {
   // 梦想录列表信息
   collectionList: [],
-  collectionCoverList: [],
   curCollectionIndex: 0,
   // 上传图片
+  imgTempPath: [],
   uploadImg: [],
   maxImgCount: 3,
-  loadingLock: true
+  uploadLock: false,
+  reqLock: false,
+  ossDomain: globalVars.aliyun.ossDomain
 };
 
 // 注册页面
@@ -40,61 +42,49 @@ Page({
       });
       if(userInfo) {
         _this.getCollecionInfo();
+      }else {
+        // TODO CODE
+        // 未登录
       }
     });
-
-    // // test code
-    // this.setData({
-    //   collectionList: ['梦想录1', '梦想录2', '梦想录3'],
-    //   collectionCoverList: [globalVars.aliyun.ossDomain + '/temp/avatar.png', globalVars.aliyun.ossDomain + '/temp/avatar.png', globalVars.aliyun.ossDomain + '/temp/avatar.png']
-    // });
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
   },
 
   // 自定义
+  // 创建梦想录入口
+  onTapAddCollection: function() {
+    wx.redirectTo({
+      url: app.globalData.pageUrl.addCollection
+    });
+  },
   // 梦想录选择事件
   onChangeDiaryPicker: function(e) {
     var curIndex = e.detail.value;
     this.setData({
-      diaryIndex: curIndex
+      curCollectionIndex: curIndex
     });
   },
-  // 点击上传图片
-  onClickAddImg: function(e) {
+  // 点击选择图片
+  onTapAddImg: function(e) {
     var _this = this;
 
     // 图片选择
     wx.chooseImage({
       count: 3,
       success: function(res) {
-        console.log(res);
         var tempFileArr = res.tempFilePaths;
         _this.setData({
-          uploadImg: _this.data.uploadImg.concat(tempFileArr)
+          imgTempPath: _this.data.imgTempPath.concat(tempFileArr)
         });
       }
     });
   },
   // 点击图片执行操作
-  onClickImg: function(e) {
+  onTapImg: function(e) {
     var _this = this;
     // 图片下标
     var itemIndex = e.currentTarget.dataset.itemindex;
     // 图片数据
-    var imgArr = this.data.uploadImg;
+    var imgArr = this.data.imgTempPath;
 
     // 操作
     wx.showActionSheet({
@@ -106,7 +96,7 @@ Page({
           // 删除
           imgArr.splice(itemIndex, 1);
           _this.setData({
-            uploadImg: imgArr
+            imgTempPath: imgArr
           });
         }
       }
@@ -114,31 +104,69 @@ Page({
   },
   // 提交表单
   onSubmitPublishForm: function() {
-    var uploadImgData = this.data.uploadImg;
-    console.log(uploadImgData);
-
-    for(var i=0; i<uploadImgData.length; i++) {
-      uploadFile({
-        filePath: uploadImgData[i],
-        callback: function(res) {
-          console.log(res);
-        }
+    var _this = this;
+    var imgTempPath = this.data.imgTempPath;
+    
+    if (imgTempPath.length) {
+      // 上传图片
+      this.doUploadFile(imgTempPath, function() {
+        // 提交表单数据
+        console.log('do add, ', _this.data.uploadImg);
       });
+    } else {
+      // 提交表单数据
     }
+  },
+  // 图片上传
+  doUploadFile: function(localImgPath, callback) {
+    var _this = this;
+    var img = localImgPath.shift();
+    this.setData({
+      uploadLock: true
+    });
+
+    uploadFile({
+      filePath: img,
+      callback: function (res) {
+        // TODO CODE
+        // 失败状态处理
+
+        // 线上图片数据
+        _this.setData({
+          uploadImg: _this.data.uploadImg.concat([res.data]),
+          uploadLock: localImgPath.length > 0 ? true : false
+        });
+
+        if(localImgPath.length > 0) {
+          _this.doUploadFile(localImgPath, callback);
+        } else {
+          // 图片上传完毕
+          if (callback) {
+            callback();
+          }
+        }
+      }
+    });
+  },
+  // 新增轨迹
+  doAddDiary: function() {
+
   },
   // 获取梦想录信息
   getCollecionInfo: function() {
     var _this = this;
     this.reqCollectionListApi(function(res) {
-      console.log(res);
-
-      _this.setData({
-        loadingLock: false
-      });
+      var code = res.code;
+      if(code == 200) {
+        _this.setData({
+          collectionList: res.data.list
+        });
+      }
     });
   },
   // 请求梦想录列表接口
   reqCollectionListApi: function(callback) {
+    var _this = this;
     var userInfo = this.data.userInfo;
     // 参数
     var reqData = {
@@ -154,7 +182,20 @@ Page({
         if(callback) {
           callback(res.data);
         }
+      },
+      complete: function() {
+        _this.setData({
+          loadingLock: false
+        });
+      },
+      fail: function() {
+        // TODO CODE
+        // 错误情况处理
       }
     });
+  },
+  // 请求新增轨迹接口
+  reqAddDiaryApi: function() {
+
   }
 })

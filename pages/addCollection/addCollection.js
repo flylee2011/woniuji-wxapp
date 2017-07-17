@@ -9,11 +9,16 @@ var globalVars = require('../../utils/globalVars');
 var $uploadFile = require('../../utils/alioss/uploadFile');
 // 页面数据
 var pageData = {
+  // 用户数据
   userInfo: null,
+  // 封面图
   coverImgTempPath: '',
   coverImgUrl: '',
+  // 标题
   title: '',
+  // 简介
   desc: '',
+  // 请求锁
   reqLock: false
 };
 
@@ -126,6 +131,9 @@ Page({
           wx.showToast({
             title: '创建成功',
           });
+          setTimeout(function() {
+            wx.navigateBack();
+          }, 2000);
         } else {
 
         }

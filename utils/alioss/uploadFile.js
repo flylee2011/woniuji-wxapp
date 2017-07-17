@@ -50,12 +50,13 @@ var uploadFile = function (options) {
   var date = new Date();
   // 参数
   var uploadOpt = {
-    // 临时文件
+    // 临时文件路径
     filePath: options.filePath,
     // 存储目录
     fileDir: date.getFullYear() + '' + fixZero(date.getMonth() + 1) + '' + fixZero(date.getDate()) + '/',
     // 回调
-    callback: options.callback
+    callback: options.callback,
+    taskCallback: options.taskCallback
   };
   if(globalVars.debug) {
     uploadOpt.fileDir = 'test/' + uploadOpt.fileDir;
@@ -78,7 +79,7 @@ var uploadFile = function (options) {
   var signature = getSignature(policyBase64);
 
   // 调用微信上传文件 api
-  wx.uploadFile({
+  var uploadTask = wx.uploadFile({
     url: aliyunServerURL,
     filePath: uploadOpt.filePath,
     name: 'file',
@@ -117,6 +118,11 @@ var uploadFile = function (options) {
       }
     }
   });
+  // uploadTask.onProgressUpdate = function(res) {
+  //   if (uploadOpt.taskCallback) {
+  //     uploadOpt.taskCallback(res);
+  //   }
+  // }
 }
 
 module.exports = uploadFile;

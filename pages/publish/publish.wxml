@@ -9,9 +9,9 @@
     <view class="c-form-item">
       <view class="text-label">选择梦想录</view>
       <view class="form-el">
-        <picker class="select-item last" bindchange="onChangeDiaryPicker" range="{{collectionList}}" value="{{curCollectionIndex}}">
-          <image class="cover" src="{{collectionCoverList[curCollectionIndex]}}"></image>
-          <text class="text">{{collectionList[curCollectionIndex]}}</text>
+        <picker class="select-item last" bindchange="onChangeDiaryPicker" range="{{collectionList}}" range-key="title" value="{{curCollectionIndex}}">
+          <image class="cover" src="{{ossDomain + '/' + collectionList[curCollectionIndex]['cover_url']}}"></image>
+          <text class="text">{{collectionList[curCollectionIndex]['title']}}</text>
           <text class="fa fa-angle-right icon-angle"></text>
         </picker>
       </view>
@@ -22,11 +22,11 @@
       <view class="text-label">上传图片</view>
       <view class="form-el">
         <view class="pic-sets">
-            <view wx:if="{{uploadImg.length > 0}}" wx:for="{{uploadImg}}" data-itemindex="{{index}}" bindtap="onClickImg" class="item">
+            <view wx:if="{{imgTempPath.length > 0}}" wx:for="{{imgTempPath}}" data-itemindex="{{index}}" bindtap="onTapImg" class="item">
               <image class="img" src="{{item}}"></image>
             </view>
-            <view wx:if="{{uploadImg.length != 3}}" bindtap="onClickAddImg" class="c-addnew"></view>
-            <view wx:if="{{uploadImg.length == 1}}" class="c-blank"></view>
+            <view wx:if="{{imgTempPath.length != 3}}" bindtap="onTapAddImg" class="c-addnew"></view>
+            <view wx:if="{{imgTempPath.length == 1}}" class="c-blank"></view>
         </view>
       </view>
     </view>
@@ -44,7 +44,7 @@
   </form>
   </block>
   <block wx:else>
-  <view class="pl-empty">
+  <view bindtap="onTapAddCollection" class="pl-empty">
     <text>还没有梦想录，快去 <text class="text-highlight">创建吧~</text></text>
   </view>
   </block>
