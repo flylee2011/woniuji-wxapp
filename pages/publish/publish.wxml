@@ -40,7 +40,9 @@
     </view>
 
     <!-- 提交按钮 -->
-    <button class="c-btn-submit" form-type="submit" type="primary">发布</button>
+    <button wx:if="{{uploadLock}}" class="c-btn-submit" form-type="submit" type="primary">上传图片中...</button>
+    <button wx:elif="{{submitFormLock}}" class="c-btn-submit" form-type="submit" type="primary">提交中...</button>
+    <button wx:else class="c-btn-submit" form-type="submit" type="primary">提 交</button>
   </form>
   </block>
   <block wx:else>

@@ -58,7 +58,10 @@ var uploadFile = function (options) {
     callback: options.callback,
     taskCallback: options.taskCallback
   };
-  if(globalVars.debug) {
+  if(
+    globalVars.apiDomain.indexOf(':1426') != -1 ||
+    globalVars.apiDomain.indexOf(':8001') != -1
+  ) {
     uploadOpt.fileDir = 'test/' + uploadOpt.fileDir;
   }
 
