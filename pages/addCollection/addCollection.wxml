@@ -6,17 +6,17 @@
       <view class="form-el">
         <!-- 标题 -->
         <view class="select-item">
-          <block wx:if="{{coverImgTempPath || coverImgUrl}}">
-            <image class="cover" src="{{coverImgTempPath || coverImgUrl}}"></image>
+          <block wx:if="{{localCoverImgUrl || uploadCoverImgUrl}}">
+            <image bindtap="onTapCover" class="cover" src="{{localCoverImgUrl || uploadCoverImgUrl}}"></image>
           </block>
           <block wx:else>
             <view bindtap="onTapCover" class="c-addnew"></view>
           </block>
-          <input name="title" placeholder-class="form-placeholder" placeholder="标题" />
+          <input name="title" placeholder-class="form-placeholder" placeholder="标题" value="{{title}}" />
         </view>
         <!-- 简介 -->
         <view class="select-item">
-          <textarea name="desc" class="textarea" placeholder-class="form-placeholder" placeholder="简介（选填）" />
+          <textarea name="desc" class="textarea" placeholder-class="form-placeholder" placeholder="简介（选填）" value="{{desc}}" />
         </view>
       </view>
     </view>

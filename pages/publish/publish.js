@@ -10,16 +10,23 @@ var uploadFile = require('../../utils/alioss/uploadFile');
 
 // 页面数据
 var pageData = {
+  // 用户信息
+  userInfo: null,
+  // 加载锁
+  loadingLock: true,
   // 梦想录列表信息
   collectionList: [],
   curCollectionIndex: 0,
   // 上传图片
-  imgTempPath: [],
-  uploadImg: [],
+  localImgArr: [],
+  uploadImgArr: [],
   maxImgCount: 3,
+  ossDomain: globalVars.aliyun.ossDomain,
+  // 正文内容
+  content: '',
+  // 请求锁
   uploadLock: false,
-  reqLock: false,
-  ossDomain: globalVars.aliyun.ossDomain
+  submitFormLock: false
 };
 
 // 注册页面
@@ -73,7 +80,7 @@ Page({
       success: function(res) {
         var tempFileArr = res.tempFilePaths;
         _this.setData({
-          imgTempPath: _this.data.imgTempPath.concat(tempFileArr)
+          localImgArr: _this.data.localImgArr.concat(tempFileArr)
         });
       }
     });
@@ -84,7 +91,7 @@ Page({
     // 图片下标
     var itemIndex = e.currentTarget.dataset.itemindex;
     // 图片数据
-    var imgArr = this.data.imgTempPath;
+    var imgArr = this.data.localImgArr;
 
     // 操作
     wx.showActionSheet({
@@ -96,31 +103,45 @@ Page({
           // 删除
           imgArr.splice(itemIndex, 1);
           _this.setData({
-            imgTempPath: imgArr
+            localImgArr: imgArr
           });
         }
       }
     });
   },
   // 提交表单
-  onSubmitPublishForm: function() {
+  onSubmitPublishForm: function(e) {
     var _this = this;
-    var imgTempPath = this.data.imgTempPath;
-    
-    if (imgTempPath.length) {
+    var formVal = e.detail.value;
+    var localImgArr = this.data.localImgArr;
+
+    if(!formVal.content && !localImgArr.length) {
+      // 检查内容
+      wx.showModal({
+        title: '错误',
+        content: '什么都不写？',
+      });
+      return;
+    }
+
+    this.setData({
+      content: formVal.content
+    });
+    if (localImgArr.length) {
       // 上传图片
-      this.doUploadFile(imgTempPath, function() {
-        // 提交表单数据
-        console.log('do add, ', _this.data.uploadImg);
+      this.doUploadFile(localImgArr, function() {
+        // 执行新增轨迹
+        _this.doAddDiary();
       });
     } else {
-      // 提交表单数据
+      // 执行新增轨迹
+      _this.doAddDiary();
     }
   },
   // 图片上传
-  doUploadFile: function(localImgPath, callback) {
+  doUploadFile: function (localImgArr, callback) {
     var _this = this;
-    var img = localImgPath.shift();
+    var img = localImgArr.shift();
     this.setData({
       uploadLock: true
     });
@@ -133,12 +154,12 @@ Page({
 
         // 线上图片数据
         _this.setData({
-          uploadImg: _this.data.uploadImg.concat([res.data]),
-          uploadLock: localImgPath.length > 0 ? true : false
+          uploadImgArr: _this.data.uploadImgArr.concat([res.data]),
+          uploadLock: localImgArr.length > 0 ? true : false
         });
 
-        if(localImgPath.length > 0) {
-          _this.doUploadFile(localImgPath, callback);
+        if (localImgArr.length > 0) {
+          _this.doUploadFile(localImgArr, callback);
         } else {
           // 图片上传完毕
           if (callback) {
@@ -150,11 +171,29 @@ Page({
   },
   // 新增轨迹
   doAddDiary: function() {
-
+    this.reqAddDiaryApi(function(res) {
+      var code = res.code;
+      if(code == 200) {
+        wx.showToast({
+          title: '创建成功',
+        });
+        setTimeout(function () {
+          wx.switchTab({
+            url: app.globalData.pageUrl.mine,
+          });
+        }, 2000);
+      } else {
+        // TODO CODE
+        // 错误处理
+      }
+    });
   },
   // 获取梦想录信息
   getCollecionInfo: function() {
     var _this = this;
+    wx.showLoading({
+      title: '加载中'
+    });
     this.reqCollectionListApi(function(res) {
       var code = res.code;
       if(code == 200) {
@@ -173,7 +212,7 @@ Page({
       page: 1,
       pageSize: 1000,
       order: 'update_time',
-      uid: userInfo.id
+      uid: parseInt(userInfo.id)
     };
     wx.request({
       url: globalVars.apiDomain + '/api/collection/list',
@@ -187,6 +226,7 @@ Page({
         _this.setData({
           loadingLock: false
         });
+        wx.hideLoading();
       },
       fail: function() {
         // TODO CODE
@@ -195,7 +235,42 @@ Page({
     });
   },
   // 请求新增轨迹接口
-  reqAddDiaryApi: function() {
+  reqAddDiaryApi: function(callback) {
+    var _this = this;
+    var userInfo = this.data.userInfo;
+    if(this.data.submitFormLock) {
+      return;
+    }
 
+    // 参数
+    var reqData = {
+      sessionId: wx.getStorageSync('sessionId'),
+      uid: parseInt(userInfo.id),
+      cid: this.data.collectionList[this.data.curCollectionIndex]['id'],
+      imgUrl: this.data.uploadImgArr.join(','),
+      content: this.data.content
+    };
+    this.setData({
+      submitFormLock: true
+    });
+    wx.request({
+      url: globalVars.apiDomain + '/api/diary/add',
+      method: 'POST',
+      data: reqData,
+      success: function(res) {
+        if(callback) {
+          callback(res.data);
+        }
+      },
+      complete: function() {
+        _this.setData({
+          submitFormLock: false
+        });
+      },
+      fail: function() {
+        // TODO CODE
+        // 错误情况处理
+      }
+    });
   }
-})
+});

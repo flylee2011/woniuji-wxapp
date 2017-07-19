@@ -5,6 +5,7 @@
 // 获取应用实例
 var app = getApp();
 var globalVars = require('../../utils/globalVars');
+var $getDateDiff = require('../../utils/getDateDiff');
 
 // 页面数据
 var pageData = {
@@ -51,7 +52,7 @@ Page({
         // 已登录，初始化列表
         _this.data.diaryListParams.uid = userInfo.id;
         _this.data.collectionListParams.uid = userInfo.id;
-        _this.renderList();
+        _this.renderDiaryList();
       }
     });
   },
@@ -63,6 +64,27 @@ Page({
   onShareAppMessage: function() {
     return {
       title: globalVars.shareTitle
+    }
+  },
+  // 页面滚动到底部，加载列表
+  onReachBottom: function() {
+    var curTabIndex = this.data.curTabIndex;
+    var diaryListDone = this.data.diaryListDone;
+    if(!diaryListDone && curTabIndex == 1) {
+      // 轨迹列表
+      this.renderDiaryList();
+    }
+  },
+  // 下拉刷新
+  onPullDownRefresh: function() {
+    var curTabIndex = this.data.curTabIndex;
+    this.resetListData();
+    if(curTabIndex == 1) {
+      // 轨迹列表
+      this.renderDiaryList();
+    } else {
+      // 梦想录列表
+      this.renderCollectionList();
     }
   },
 
@@ -86,7 +108,13 @@ Page({
     this.setData({
       curTabIndex: targetTabIndex
     });
-    this.renderList();
+    if(targetTabIndex == 1) {
+      // 轨迹列表
+      this.renderDiaryList();
+    } else {
+      // 梦想录列表
+      this.renderCollectionList();
+    }
   },
   // 点击用户昵称和头像
   onTapUser: function(e) {
@@ -132,40 +160,71 @@ Page({
       url: app.globalData.pageUrl.addCollection
     });
   },
-  // 渲染列表
-  renderList: function() {
+  // 长按梦想录，提供选项，编辑、删除
+  onLongTapCollection: function(e) {
+    // 梦想录 id
+    var itemId = e.currentTarget.dataset.itemid;
+    // 选项菜单
+    wx.showActionSheet({
+      itemList: ['编辑', '删除'],
+      success: function(res) {
+        var tapIndex = res.tapIndex;
+        if (tapIndex == 0) {
+          // 编辑
+          wx.navigateTo({
+            url: app.globalData.pageUrl.addCollection + '?itemid=' + itemId
+          });
+        } else if(tapIndex == 1) {
+          // 删除
+        }
+      }
+    });
+  },
+
+  // 渲染轨迹列表
+  renderDiaryList: function() {
     var _this = this;
-    var curTabIndex = this.data.curTabIndex;
-    if (curTabIndex == 1) {
-      // 轨迹
-      this.reqDiaryListApi(function(res) {
-        var code = res.code;
-        var data = res.data;
-        var diaryListParams = _this.data.diaryListParams;
-        if(code == 200) {
-          // 成功
-          var totalPage = Math.ceil(data.total_count / diaryListParams.pageSize);
-          _this.setData({
-            diaryList: data.list,
-            diaryListDone: (diaryListParams.page >= totalPage ? true : false),
-            'diaryListParams.page': diaryListParams.page + 1
-          });
-        }
-      });
-    }else {
-      // 梦想录
-      this.reqCollectionListApi(function (res) {
-        var code = res.code;
-        var data = res.data;
-        if(code == 200) {
-          // 成功
-          _this.setData({
-            collectionList: data.list,
-            collectionListDone: true
-          });
-        }
-      });
-    }
+    // 请求接口
+    this.reqDiaryListApi(function (res) {
+      var code = res.code;
+      var data = res.data;
+      var diaryListParams = _this.data.diaryListParams;
+      if (code == 200) {
+        // 成功
+        var totalPage = Math.ceil(data.total_count / diaryListParams.pageSize);
+        var newList = _this.checkDiaryListData(data.list);
+        var originList = _this.data.diaryList;
+        // 更新数据
+        _this.setData({
+          diaryList: diaryListParams.page == 1 ? newList : originList.concat(newList),
+          diaryListDone: (diaryListParams.page >= totalPage ? true : false),
+          'diaryListParams.page': (diaryListParams.page >= totalPage ? diaryListParams.page : diaryListParams.page + 1)
+        });
+      }
+    });
+  },
+  // 渲染梦想录列表
+  renderCollectionList: function() {
+    var _this = this;
+    // 请求接口
+    this.reqCollectionListApi(function (res) {
+      var code = res.code;
+      var data = res.data;
+      if (code == 200) {
+        // 成功
+        // 更新数据
+        _this.setData({
+          collectionList: data.list,
+          collectionListDone: true
+        });
+      }
+    });
+  },
+  // 重置数据
+  resetListData: function() {
+    this.setData({
+      'diaryListParams.page': 1
+    });
   },
   // 请求轨迹列表接口
   reqDiaryListApi: function(callback) {
@@ -177,6 +236,11 @@ Page({
         if(callback) {
           callback(res.data);
         }
+      },
+      complete: function() {
+        setTimeout(function() {
+          wx.stopPullDownRefresh();
+        }, 500);
       }
     });
   },
@@ -190,7 +254,23 @@ Page({
         if(callback) {
           callback(res.data);
         }
+      },
+      complete: function () {
+        wx.stopPullDownRefresh();
       }
     });
+  },
+  // 处理轨迹列表数据
+  checkDiaryListData: function(data) {
+    if(!data) {
+      return;
+    }
+    var i = 0;
+    for(i=0; i<data.length; i++) {
+      data[i].imgArr = data[i].img_url.split(',');
+      data[i].timeline = $getDateDiff((new Date(data[i].create_time)).getTime())
+    }
+
+    return data;
   }
 });

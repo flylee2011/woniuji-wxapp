@@ -11,13 +11,17 @@ var $uploadFile = require('../../utils/alioss/uploadFile');
 var pageData = {
   // 用户数据
   userInfo: null,
+  // 梦想录 id，编辑时用
+  collectionId: 0,
   // 封面图
-  coverImgTempPath: '',
-  coverImgUrl: '',
+  localCoverImgUrl: '',
+  uploadCoverImgUrl: '',
   // 标题
   title: '',
   // 简介
   desc: '',
+  // oss 域名
+  ossDomain: globalVars.aliyun.ossDomain,
   // 请求锁
   reqLock: false
 };
@@ -31,7 +35,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function (option) {
     var _this = this;
     // 获取用户数据
     app.getUserInfo(function(userInfo) {
@@ -40,21 +44,15 @@ Page({
       });
     });
 
-    console.log('query, ', options.query);
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
+    var collectionId = option.itemid;
+    if (collectionId != 0) {
+      // 编辑页面
+      this.setData({
+        collectionId: collectionId
+      });
+      // 渲染梦想录信息
+      this.renderCollectionDetail();
+    }
   },
 
   // 自定义
@@ -66,7 +64,7 @@ Page({
       count: 1,
       success: function(res) {
         _this.setData({
-          coverImgTempPath: res.tempFilePaths[0]
+          localCoverImgUrl: res.tempFilePaths[0]
         });
       }
     });
@@ -88,7 +86,11 @@ Page({
   // 提交表单
   onSubmitForm: function(e) {
     var _this = this;
+    // 表单数据
     var formVal = e.detail.value;
+    // 本地图片
+    var localCoverImgUrl = this.data.localCoverImgUrl;
+    // 请求接口数据
     var reqData = {
       uid: app.globalData.userInfo.id,
       sessionId: wx.getStorageSync('sessionId'),
@@ -96,7 +98,11 @@ Page({
       desc: formVal.desc,
       coverUrl: ''
     };
-    var coverImgTempPath = this.data.coverImgTempPath;
+    if (this.data.uploadCoverImgUrl) {
+      // 如果是编辑页，有封面图片线上地址
+      reqData.coverUrl = this.data.uploadCoverImgUrl.replace(globalVars.aliyun.ossDomain + '/', '');
+    }
+    
     if (this.data.reqLock) {
       return;
     }
@@ -104,27 +110,69 @@ Page({
       reqLock: true
     });
 
-    if(coverImgTempPath) {
+    if (localCoverImgUrl) {
       // 有图片，上传图片
-      _this.doUploadCover(coverImgTempPath, function(res) {
+      _this.doUploadCover(localCoverImgUrl, function(res) {
         if(res.code == 200) {
           reqData.coverUrl = res.data;
-          _this.reqAddCollectionApi(reqData);
-        }else {
+          _this.doSubmit(reqData);
+        } else {
           
         }
       });
-    }else {
-      _this.reqAddCollectionApi(reqData);
+    } else {
+      _this.doSubmit(reqData);
     }
   },
+  doSubmit: function(reqData) {
+    var collectionId = this.data.collectionId;
+    if(collectionId != 0) {
+      // 编辑页面
+      reqData.id = collectionId;
+      this.reqUpdateCollectionApi(reqData);
+    } else {
+      // 新增页面
+      this.reqAddCollectionApi(reqData);
+    }
+  },
+  // 渲染梦想录信息
+  renderCollectionDetail: function() {
+    var _this = this;
+    // 请求接口
+    this.reqCollectionDetailApi(function(res) {
+      var code = res.code;
+      var data = res.data;
+      if(code == 200) {
+        _this.setData({
+          uploadCoverImgUrl: globalVars.aliyun.ossDomain + '/' + data.cover_url,
+          title: data.title,
+          desc: data.description
+        });
+      }
+    });
+  },
+  // 请求梦想录详情接口
+  reqCollectionDetailApi: function (callback) {
+    var reqData = {
+      id: this.data.collectionId
+    };
+    wx.request({
+      url: globalVars.apiDomain + '/api/collection/detail',
+      data: reqData,
+      success: function (res) {
+        if (callback) {
+          callback(res.data);
+        }
+      }
+    });
+  },
   // 请求新增梦想录接口
-  reqAddCollectionApi: function(data) {
+  reqAddCollectionApi: function(reqData) {
     var _this = this;
     wx.request({
       url: globalVars.apiDomain + '/api/collection/add',
       method: 'POST',
-      data: data,
+      data: reqData,
       success: function (res) {
         res = res.data;
         if (res.code == 200) {
@@ -149,11 +197,33 @@ Page({
     });
   },
   // 请求更新梦想录接口
-  reqUpdateCollectionApi: function (data, callback) {
+  reqUpdateCollectionApi: function(reqData, callback) {
+    var _this = this;
+    wx.request({
+      url: globalVars.apiDomain + '/api/collection/update',
+      method: 'POST',
+      data: reqData,
+      success: function(res) {
+        res = res.data;
+        if (res.code == 200) {
+          wx.showToast({
+            title: '更新成功',
+          });
+          setTimeout(function () {
+            wx.navigateBack();
+          }, 2000);
+        } else {
 
-  },
-  // 请求梦想录详情接口
-  reqCollectionDetailApi: function() {
+        }
+      },
+      complete: function () {
+        _this.setData({
+          reqLock: false
+        });
+      },
+      fail: function () {
 
+      }
+    });
   }
 });

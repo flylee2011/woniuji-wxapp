@@ -56,11 +56,14 @@ App({
                 callback();
               }
             }
+          },
+          fail: function() {
+            console.log('req wxapp_login api fail');
           }
         });
       },
-      fail: function () { },
-      complete: function () { }
+      fail: function () {},
+      complete: function () {}
     });
   },
   // 获取用户信息，在对应的 page 调用
@@ -79,6 +82,7 @@ App({
           // 如果没有，需要走 wx.login 流程
           // 如果有，走自动注册
           if (!sessionId) {
+            console.log('no sessionId');
             _this.doWxLogin(function() {
               _this.doWxappAutoreg(res, function() {
                 typeof cb == "function" && cb(_this.globalData.userInfo);
@@ -89,7 +93,8 @@ App({
               typeof cb == "function" && cb(_this.globalData.userInfo);
             });
           }
-        }
+        },
+        fail: function() {}
       });
     }
   },

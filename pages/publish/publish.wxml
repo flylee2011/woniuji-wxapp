@@ -22,11 +22,11 @@
       <view class="text-label">上传图片</view>
       <view class="form-el">
         <view class="pic-sets">
-            <view wx:if="{{imgTempPath.length > 0}}" wx:for="{{imgTempPath}}" data-itemindex="{{index}}" bindtap="onTapImg" class="item">
+            <view wx:if="{{localImgArr.length > 0}}" wx:for="{{localImgArr}}" data-itemindex="{{index}}" bindtap="onTapImg" class="item">
               <image class="img" src="{{item}}"></image>
             </view>
-            <view wx:if="{{imgTempPath.length != 3}}" bindtap="onTapAddImg" class="c-addnew"></view>
-            <view wx:if="{{imgTempPath.length == 1}}" class="c-blank"></view>
+            <view wx:if="{{localImgArr.length != 3}}" bindtap="onTapAddImg" class="c-addnew"></view>
+            <view wx:if="{{localImgArr.length == 1}}" class="c-blank"></view>
         </view>
       </view>
     </view>
@@ -35,7 +35,7 @@
     <view class="c-form-item">
       <view class="text-label">正文</view>
       <view class="form-el">
-        <textarea class="textarea" placeholder="输入正文..." />
+        <textarea name="content" class="textarea" placeholder="输入正文..." />
       </view>
     </view>
 

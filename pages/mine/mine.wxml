@@ -32,28 +32,23 @@
     <!-- 轨迹列表 -->
     <view wx:if="{{curTabIndex==1}}" class="diary-list">
       <!-- 渲染列表 -->
-      <view wx:for="{{diaryList}}" class="item">
+      <view wx:for="{{diaryList}}" wx:for-item="listItem" class="item">
         <view class="title">
-          <image bindtap="onTapUser" class="avatar" src="{{userInfo.avatarUrl}}"></image>
-          <text bindtap="onTapUser" class="nickname">三年二胎周杰伦</text>
-          <text class="time">1小时前</text>
-        </view>
-        <view class="pic">
-          <!--<image src="{{userInfo.avatarUrl}}"></image>-->
-          <image class="img-multi" src="{{userInfo.avatarUrl}}"></image>
-          <image class="img-multi" src="{{userInfo.avatarUrl}}"></image>
-          <image class="img-multi" src="{{userInfo.avatarUrl}}"></image>
-          <image class="img-multi" src="{{userInfo.avatarUrl}}"></image>
-          <image class="img-multi" src="{{userInfo.avatarUrl}}"></image>
-          <image class="img-multi" src="{{userInfo.avatarUrl}}"></image>
+          <image bindtap="onTapUser" class="avatar" src="{{listItem.avatar_url}}"></image>
+          <text bindtap="onTapUser" class="nickname">{{listItem.nickname}}</text>
+          <text class="time">{{listItem.timeline}}</text>
         </view>
         <view class="content">
-          <text>如果你无法简洁的表达你的想法，那只说明你还不够了解它。-- 阿尔伯特·爱因斯坦</text>
+          <text>{{listItem.content}}</text>
+        </view>
+        <view wx:for="{{listItem.imgArr}}" wx:for-item="picItem" class="pic">
+          <image wx:if="{{listItem.imgArr.length == 1}}" mode="widthFix" class="img-single" src="{{ossDomain + '/' + picItem}}"></image>
+          <image wx:else mode="widthFix" class="img-multi" src="{{ossDomain + '/' + picItem}}"></image>
         </view>
         <view class="meta">
-          <text bindtap="onTapCollection" class="text-from">来自《梦想录 xxx》</text>
-          <text bindtap="onTapLike" class="fa fa-heart-o icon icon-like"></text>
-          <text bindtap="onTapComment" class="fa fa-commenting-o icon icon-comment"></text>
+          <text bindtap="onTapCollection" class="text-from">梦想录 -《{{listItem.collection_title}}》</text>
+          <text bindtap="onTapLike" class="fa fa-heart-o icon icon-like"> {{listItem.like_count}}</text>
+          <text bindtap="onTapComment" class="fa fa-commenting-o icon icon-comment"> {{listItem.comment_count}}</text>
         </view>
       </view>
       <!-- 判断是否加载完毕 && 没有内容 -->
@@ -62,7 +57,7 @@
         <text>还没有内容，快去 <text class="text-highlight">发布吧~</text></text>
       </view>
       </block>
-      <block wx:else>
+      <block wx:elif="{{!diaryListDone}}">
       <view class="ball-clip-rotate">
         <view class="box"></view>
       </view>
@@ -72,7 +67,7 @@
     <view wx:elif="{{curTabIndex==2}}" class="colleciont-list">
       <!-- 渲染列表 -->
       <view wx:if="{{collectionList.length > 0}}" class="diary-sets">
-        <view wx:for="{{collectionList}}" bindtap="onTapCollection" class="item">
+        <view wx:for="{{collectionList}}" bindtap="onTapCollection" bindlongtap="onLongTapCollection" data-itemid="{{item.id}}" class="item">
           <image class="cover" src="{{ossDomain + '/' + item.cover_url}}"></image>
           <view class="title">{{item.title}}</view>
         </view>

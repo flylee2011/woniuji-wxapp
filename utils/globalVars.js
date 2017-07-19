@@ -5,7 +5,7 @@ var globalVars = {
   // 调试状态
   debug: true,
   // 域名
-  apiDomain: 'https://woniuji.cn',
+  apiDomain: 'http://woniuji.cn:1426',
   // 每页条数
   listPageSize: 10,
   // 分享数据
