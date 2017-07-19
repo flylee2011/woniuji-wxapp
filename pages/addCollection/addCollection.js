@@ -45,11 +45,11 @@ Page({
     });
 
     var collectionId = option.itemid;
-    if (collectionId != 0) {
+    this.setData({
+      collectionId: collectionId ? collectionId : 0
+    });
+    if (collectionId) {
       // 编辑页面
-      this.setData({
-        collectionId: collectionId
-      });
       // 渲染梦想录信息
       this.renderCollectionDetail();
     }
@@ -126,7 +126,7 @@ Page({
   },
   doSubmit: function(reqData) {
     var collectionId = this.data.collectionId;
-    if(collectionId != 0) {
+    if(collectionId) {
       // 编辑页面
       reqData.id = collectionId;
       this.reqUpdateCollectionApi(reqData);
@@ -183,7 +183,10 @@ Page({
             wx.navigateBack();
           }, 2000);
         } else {
-
+          wx.showModal({
+            title: '出错啦~',
+            content: '错误码: ' + res.code
+          });
         }
       },
       complete: function() {
@@ -213,7 +216,10 @@ Page({
             wx.navigateBack();
           }, 2000);
         } else {
-
+          wx.showModal({
+            title: '出错啦~',
+            content: '错误码: ' + res.code
+          });
         }
       },
       complete: function () {
@@ -222,7 +228,7 @@ Page({
         });
       },
       fail: function () {
-
+        
       }
     });
   }
