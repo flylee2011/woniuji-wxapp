@@ -1,10 +1,9 @@
 {
   "pages":[
+    "pages/discovery/discovery",
     "pages/mine/mine",
     "pages/editInfo/editInfo",
     "pages/setting/setting",
-    
-    "pages/discovery/discovery",
     "pages/addCollection/addCollection",
     "pages/publish/publish",
     "pages/followList/followList",

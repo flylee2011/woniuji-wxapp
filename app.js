@@ -59,6 +59,10 @@ App({
           },
           fail: function() {
             console.log('req wxapp_login api fail');
+            wx.showModal({
+              title: '登录失败',
+              content: '请清除缓存重试',
+            });
           }
         });
       },
@@ -124,6 +128,12 @@ App({
         if(callback) {
           callback();
         }
+      },
+      fail: function() {
+        wx.showModal({
+          title: '登录失败',
+          content: '请清除缓存重试',
+        });
       }
     });
   },

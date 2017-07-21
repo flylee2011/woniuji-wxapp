@@ -3,7 +3,7 @@
  */
 var globalVars = {
   // 调试状态
-  debug: true,
+  debug: false,
   // 域名
   apiDomain: 'http://woniuji.cn:1426',
   // 每页条数
@@ -16,6 +16,12 @@ var globalVars = {
     accessId: 'LTAIl5UNqurg8OhY',
     accessKey: '7uM9TQcJ6Rx5MYgQCmC4WmKHT1G41w',
     maxSize: 1024*1024*10
+  },
+  // 图片处理规则
+  imgRule: {
+    w100: '!w100',
+    w200: '!w200',
+    w400: '!w400'
   }
 };
 
