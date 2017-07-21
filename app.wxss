@@ -116,13 +116,15 @@ page {
   align-items: center;
   flex-wrap: wrap;
 }
-.diary-list .pic .img-multi {
+.diary-list .pic image {
   margin-top: 20rpx;
-  width: 200rpx;
-  height: 200rpx;
+}
+.diary-list .pic .img-multi {
+  width: 220rpx;
+  height: 220rpx;
 }
 .diary-list .pic .img-single {
-  margin: 20rpx auto 0 auto;
+   width: 100%; 
 }
 .diary-list .content {
   margin-top: 20rpx;
@@ -141,7 +143,7 @@ page {
 .diary-list .meta .icon {
   float: right;
   margin-left: 20rpx;
-   font-size: 32rpx; 
+  font-size: 32rpx;
 }
 
 /* 表单/选项列表类 */

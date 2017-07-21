@@ -20,7 +20,7 @@ var pageData = {
   diaryListParams: {
     page: 1,
     pageSize: globalVars.listPageSize,
-    order: 'update_time'
+    order: 'create_time'
   },
   diaryListDone: false,
   // 梦想录列表
@@ -33,7 +33,8 @@ var pageData = {
   collectionListDone: false,
   // tab 位置
   curTabIndex: 1,
-  ossDomain: globalVars.aliyun.ossDomain
+  ossDomain: globalVars.aliyun.ossDomain,
+  imgRule: globalVars.imgRule
 };
 
 // 注册页面
@@ -47,18 +48,9 @@ Page({
       _this.setData({
         userInfo: userInfo
       });
-
-      if(userInfo) {
-        // 已登录，初始化列表
-        _this.data.diaryListParams.uid = userInfo.id;
-        _this.data.collectionListParams.uid = userInfo.id;
-        _this.renderDiaryList();
-      }
+      // 初始化数据
+      _this.initData();
     });
-  },
-  // 初次渲染完成
-  onReady: function() {
-
   },
   // 分享
   onShareAppMessage: function() {
@@ -89,6 +81,15 @@ Page({
   },
 
   // 自定义
+  // 初始化数据
+  initData: function() {
+    var userInfo = this.data.userInfo;
+    if(userInfo) {
+      this.data.diaryListParams.uid = userInfo.id;
+      this.data.collectionListParams.uid = userInfo.id;
+      this.renderDiaryList();
+    }
+  },
   // 点击登录
   onTapWxLogin: function(e) {
     var _this = this;
@@ -97,6 +98,8 @@ Page({
       _this.setData({
         userInfo: userInfo
       });
+      // 初始化数据
+      _this.initData();
     });
   },
   // 切换 tab
@@ -130,18 +133,6 @@ Page({
   onTapLike: function(e) {
     console.log(e);
   },
-  // 点击梦想录
-  onTapCollection: function(e) {
-    wx.navigateTo({
-      url: app.globalData.pageUrl.collectionDetail
-    });
-  },
-  // 点击新增梦想录
-  onTapAddCollection: function(e) {
-    wx.navigateTo({
-      url: app.globalData.pageUrl.addCollection
-    });
-  },
   // 点击设置
   onTapSetting: function(e) {
     wx.navigateTo({
@@ -160,10 +151,33 @@ Page({
       url: app.globalData.pageUrl.addCollection
     });
   },
+  // touchStart事件，判断是tap 还是 longtap
+  onTouchStart: function(e) {
+    this.setData({
+      touchStartTime: Date.now()
+    });
+  },
+  // 点击梦想录，进入梦想录详情页
+  onTapCollection: function (e) {
+    var timeDiff = Date.now() - this.data.touchStartTime;
+    if (timeDiff >= 200) {
+      return;
+    }
+    wx.navigateTo({
+      url: app.globalData.pageUrl.collectionDetail
+    });
+  },
   // 长按梦想录，提供选项，编辑、删除
   onLongTapCollection: function(e) {
-    // 梦想录 id
-    var itemId = e.currentTarget.dataset.itemid;
+    var _this = this;
+    var itemData = e.currentTarget.dataset;
+    // 梦想录信息
+    var itemId = itemData.itemid;
+    var itemTitle = itemData.itemtitle;
+    var itemIndex = itemData.itemindex;
+    // 用户信息
+    var userInfo = this.data.userInfo;
+
     // 选项菜单
     wx.showActionSheet({
       itemList: ['编辑', '删除'],
@@ -176,8 +190,59 @@ Page({
           });
         } else if(tapIndex == 1) {
           // 删除
+          wx.showModal({
+            title: '删除梦想录',
+            content: '确认删除梦想录《' + itemTitle +'》吗？',
+            confirmColor: '#f00',
+            success: function(res) {
+              if(res.confirm) {
+                // 确认按钮
+                _this.doDelCollection(itemId, itemIndex);
+              }
+            }
+          });
         }
       }
+    });
+  },
+  // 点击轨迹选项
+  onTapDiaryOption: function(e) {
+    var _this = this;
+    var itemData = e.currentTarget.dataset;
+    // 轨迹信息
+    var itemId = itemData.itemid;
+    var itemIndex = itemData.itemindex;
+
+    // 选项菜单
+    wx.showActionSheet({
+      itemList: ['删除'],
+      itemColor: '#f00',
+      success: function(res) {
+        var tapIndex = res.tapIndex;
+        if(tapIndex == 0) {
+          // 删除
+          wx.showModal({
+            title: '删除轨迹',
+            content: '确认删除该条内容吗？',
+            confirmColor: '#f00',
+            success: function (res) {
+              if (res.confirm) {
+                // 确认按钮
+                _this.doDelDiary(itemId, itemIndex);
+              }
+            }
+          });
+        }
+      }
+    });
+  },
+  // 图片预览
+  onPreviewImg: function(e) {
+    console.log(e);
+    var data = e.currentTarget.dataset;
+    wx.previewImage({
+      urls: data.imgurls,
+      current: data.curimg
     });
   },
 
@@ -226,6 +291,57 @@ Page({
       'diaryListParams.page': 1
     });
   },
+  // 删除梦想录
+  doDelCollection: function(itemId, itemIndex) {
+    var _this = this;
+    var collectionList = this.data.collectionList;
+    // 请求数据
+    var reqData = {
+      id: itemId,
+      uid: this.data.userInfo.id,
+      sessionId: wx.getStorageSync('sessionId')
+    };
+    // 请求接口
+    this.reqDelCollectionApi(reqData, function (res) {
+      var code = res.code;
+      if(code == 200) {
+        wx.showToast({
+          title: '删除成功~'
+        });
+        // 删除列表中数据
+        collectionList.splice(itemIndex, 1);
+        _this.setData({
+          collectionList: collectionList
+        });
+      }
+    });
+  },
+  // 删除轨迹
+  doDelDiary: function(itemId, itemIndex) {
+    var _this = this;
+    var diaryList = this.data.diaryList;
+    // 请求数据
+    var reqData = {
+      id: itemId,
+      uid: this.data.userInfo.id,
+      sessionId: wx.getStorageSync('sessionId')
+    };
+    // 请求接口
+    this.reqDelDiaryApi(reqData, function (res) {
+      var code = res.code;
+      if (code == 200) {
+        wx.showToast({
+          title: '删除成功~'
+        });
+        // 删除列表中数据
+        diaryList.splice(itemIndex, 1);
+        _this.setData({
+          diaryList: diaryList
+        });
+      }
+    });
+  },
+
   // 请求轨迹列表接口
   reqDiaryListApi: function(callback) {
     var reqData = this.data.diaryListParams;
@@ -256,7 +372,9 @@ Page({
         }
       },
       complete: function () {
-        wx.stopPullDownRefresh();
+        setTimeout(function() {
+          wx.stopPullDownRefresh();
+        }, 500);
       }
     });
   },
@@ -265,12 +383,55 @@ Page({
     if(!data) {
       return;
     }
-    var i = 0;
+    var i = 0, j = 0;
     for(i=0; i<data.length; i++) {
       data[i].imgArr = data[i].img_url.split(',');
       data[i].timeline = $getDateDiff((new Date(data[i].create_time)).getTime())
+      for (j=0; j<data[i].imgArr.length; j++) {
+        data[i].imgArr[j] = globalVars.aliyun.ossDomain + '/' + data[i].imgArr[j];
+      }
     }
 
     return data;
+  },
+  // 请求删除梦想录接口
+  reqDelCollectionApi: function(reqData, callback) {
+    wx.showLoading({
+      title: '删除中...'
+    });
+    wx.request({
+      url: globalVars.apiDomain + '/api/collection/del',
+      method: 'POST',
+      data: reqData,
+      success: function(res) {
+        if(callback) {
+          callback(res.data);
+        }
+      },
+      complete: function() {
+        wx.hideLoading();
+      },
+      fail: function() {}
+    });
+  },
+  // 请求删除轨迹接口
+  reqDelDiaryApi: function(reqData, callback) {
+    wx.showLoading({
+      title: '删除中...'
+    });
+    wx.request({
+      url: globalVars.apiDomain + '/api/diary/del',
+      method: 'POST',
+      data: reqData,
+      success: function (res) {
+        if (callback) {
+          callback(res.data);
+        }
+      },
+      complete: function () {
+        wx.hideLoading();
+      },
+      fail: function () { }
+    });
   }
 });

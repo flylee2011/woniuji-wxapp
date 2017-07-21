@@ -181,7 +181,7 @@ Page({
           });
           setTimeout(function() {
             wx.navigateBack();
-          }, 2000);
+          }, 1500);
         } else {
           wx.showModal({
             title: '出错啦~',
@@ -214,7 +214,7 @@ Page({
           });
           setTimeout(function () {
             wx.navigateBack();
-          }, 2000);
+          }, 1500);
         } else {
           wx.showModal({
             title: '出错啦~',

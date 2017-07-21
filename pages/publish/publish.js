@@ -181,7 +181,7 @@ Page({
           wx.switchTab({
             url: app.globalData.pageUrl.mine,
           });
-        }, 2000);
+        }, 1500);
       } else {
         // TODO CODE
         // 错误处理

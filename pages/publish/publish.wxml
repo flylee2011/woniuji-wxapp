@@ -16,7 +16,13 @@
         </picker>
       </view>
     </view>
-
+    <!-- 正文 -->
+    <view class="c-form-item">
+      <view class="text-label">正文</view>
+      <view class="form-el">
+        <textarea name="content" class="textarea" placeholder="输入正文..." />
+      </view>
+    </view>
     <!-- 图片 -->
     <view class="c-form-item">
       <view class="text-label">上传图片</view>
@@ -31,20 +37,13 @@
       </view>
     </view>
 
-    <!-- 正文 -->
-    <view class="c-form-item">
-      <view class="text-label">正文</view>
-      <view class="form-el">
-        <textarea name="content" class="textarea" placeholder="输入正文..." />
-      </view>
-    </view>
-
     <!-- 提交按钮 -->
-    <button wx:if="{{uploadLock}}" class="c-btn-submit" form-type="submit" type="primary">上传图片中...</button>
-    <button wx:elif="{{submitFormLock}}" class="c-btn-submit" form-type="submit" type="primary">提交中...</button>
+    <button wx:if="{{uploadLock}}" class="c-btn-submit" form-type="submit" type="primary" loading>上传图片中...</button>
+    <button wx:elif="{{submitFormLock}}" class="c-btn-submit" form-type="submit" type="primary" loading>提交中...</button>
     <button wx:else class="c-btn-submit" form-type="submit" type="primary">提 交</button>
   </form>
   </block>
+
   <block wx:else>
   <view bindtap="onTapAddCollection" class="pl-empty">
     <text>还没有梦想录，快去 <text class="text-highlight">创建吧~</text></text>
