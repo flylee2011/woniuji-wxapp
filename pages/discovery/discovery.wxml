@@ -2,10 +2,17 @@
 <view class="app-container">
   <!-- tab 切换部分 -->
   <view class="c-tab">
-    <text data-tabindex="0" bindtap="toggleTab" class="item {{tabStyle[0]}}">榜单</text>
-    <text data-tabindex="1" bindtap="toggleTab" class="item {{tabStyle[1]}}">关注</text>
-    <text data-tabindex="2" bindtap="toggleTab" class="item {{tabStyle[2]}}">梦想录</text>
-    <text data-tabindex="3" bindtap="toggleTab" class="item {{tabStyle[3]}}">梦想家</text>
+    <text wx-if="{{curTabIndex == 0}}" data-tabindex="0" bindtap="toggleTab" class="item active">榜单</text>
+    <text wx-else data-tabindex="0" bindtap="toggleTab" class="item">榜单</text>
+
+    <text wx:if="{{curTabIndex == 1}}" data-tabindex="1" bindtap="toggleTab" class="item active">关注</text>
+    <text wx:else data-tabindex="1" bindtap="toggleTab" class="item">关注</text>
+
+    <text wx:if="{{curTabIndex == 2}}" data-tabindex="2" bindtap="toggleTab" class="item active">梦想录</text>
+    <text wx:else data-tabindex="2" bindtap="toggleTab" class="item">梦想录</text>
+
+    <text wx:if="{{curTabIndex == 3}}" data-tabindex="3" bindtap="toggleTab" class="item active">梦想家</text>
+    <text wx:else data-tabindex="3" bindtap="toggleTab" class="item">梦想家</text>
   </view>
   <!-- 关注轨迹列表 -->
   <view wx:if="{{curTabIndex==0}}" class="diary-list">

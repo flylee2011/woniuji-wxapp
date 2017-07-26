@@ -71,8 +71,7 @@ var pageData = {
   // peopleListLock: false,
   // peopleListDone: false,
   // 当前 tab 位置
-  curTabIndex: 0,
-  tabStyle: ['active', '', '', '']
+  curTabIndex: 0
 };
 
 // 注册页面
@@ -120,35 +119,12 @@ Page({
   toggleTab: function(e) {
     var curTabIndex = e.currentTarget.dataset.tabindex;
     this.setData({
-      curTabIndex: curTabIndex,
-      tabStyle: ['', '', '', '']
+      curTabIndex: curTabIndex
     });
-    switch(curTabIndex) {
-      case '0':
-        this.setData({
-          'tabStyle[0]': 'active'
-        });
-        break;
-      case '1':
-        this.setData({
-          'tabStyle[1]': 'active'
-        });
-        break;
-      case '2':
-        this.setData({
-          'tabStyle[2]': 'active'
-        });
-        break;
-      case '3':
-        this.setData({
-          'tabStyle[3]': 'active'
-        });
-        break;
-    }
   },
   // 初始化数据
   initData: function() {
-
+    this.loadList();
   },
   // 加载列表
   loadList: function() {
@@ -160,14 +136,6 @@ Page({
       }
     });
   },
-  // // 加载梦想录列表
-  // loadCollectionList: function() {
-
-  // },
-  // // 加载用户列表
-  // loadPeopleList: function() {
-
-  // },
   // 请求列表接口
   reqListApi: function(tabIndex, callback) {
     var _this = this;
@@ -175,21 +143,25 @@ Page({
     if(lock) {
       return;
     }
-    // var lockData = 'listLock['+ tabIndex +']';
-    // this.setData({
-    //   'listLock['+ tabIndex + ']': true
+    var lockData = {};
+    lockData['listLock['+ tabIndex + ']'] = true;
+    this.setData(lockData);
+
+    // // 请求接口
+    // wx.request({
+    //   url: '',
+    //   data: reqData,
+    //   success: function(res) {
+
+    //   },
+    //   complete: function() {
+
+    //   }
     // });
-    // 请求接口
-    wx.request({
-      url: '',
-      data: reqData,
-      success: function(res) {
+  },
+  // 点击用户
+  onTapUser: function(e) {
 
-      },
-      complete: function() {
-
-      }
-    });
   },
   // 点击梦想录
   onClickCollection: function(e) {
