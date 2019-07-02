@@ -1545,7 +1545,7 @@
 .fa-hacker-news:before {
   content: "\f1d4";
 }
-.fa-tencent-weibo:before {
+.fa-tengxun-weibo:before {
   content: "\f1d5";
 }
 .fa-qq:before {
